@@ -1,12 +1,8 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { ScrollView, Text } from "react-native";
+import React from "react";
 
 const NewDoctor = () => {
-  return (
-    <View>
-      <Text>NewDoctor</Text>
-    </View>
-  )
-}
+  return <Text className="text-lg font-medium">hiiii</Text>;
+};
 
-export default NewDoctor
+export default NewDoctor;
