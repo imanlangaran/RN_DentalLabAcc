@@ -2,5 +2,7 @@
   "welcome": "خوش آمدید",
   "profile": "پروفایل",
   "doctors": "پزشکها",
-  "newDoctor": "پزشک جدید"
+  "newDoctor": "پزشک جدید",
+  "Doctor": "پزشک",
+  "Clinic": "کلینیک"
 }
