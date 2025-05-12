@@ -1,21 +1,23 @@
-import { View, Text, TouchableOpacity } from 'react-native'
-import React, { Dispatch, SetStateAction } from 'react'
+import React, { Dispatch, SetStateAction } from 'react';
+import { TouchableOpacity, View } from 'react-native';
 
-const StyledRadio = ({
+const StyledButton = ({
   selected=false,
   label,
   value,
-  onPress
+  onPress,
+  className
 }:{
   selected?: boolean;
   label: string;
   value: string;
   onPress: Dispatch<SetStateAction<string>>;
+  className?: string;
 }) => {
   return (
-    <View>
+    <View className={`min-w-56 ${className}`}>
       <TouchableOpacity 
-        className={`w-2/5 text-center rounded-full py-2 ${selected ? ' text-white bg-primary ' : ' text-primary bg-secondary'}`}
+        className={`w-full text-center rounded-full py-2 ${selected ? ' text-white bg-primary ' : ' text-primary bg-secondary'}`}
         onPress={() => onPress(value)}
       >
         {label}
@@ -24,4 +26,4 @@ const StyledRadio = ({
   )
 }
 
-export default StyledRadio
+export default StyledButton
