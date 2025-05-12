@@ -5,6 +5,7 @@ import { View } from "react-native";
 
 const NewDoctor = () => {
   const [value, setValue] = useState("");
+  
   const radioItems = [
     {
       value: "val1",
@@ -22,16 +23,18 @@ const NewDoctor = () => {
 
   return (
     <View className="px-8">
-      <Radio setValue={setValue} radioItems={radioItems} />
+      <Radio setValue={setValue} radioItems={radioItems} selectedValue={value}/>
     </View>
   );
 };
 
 export const Radio = ({
   setValue,
+  selectedValue,
   radioItems,
 }: {
   setValue: Dispatch<SetStateAction<string>>;
+  selectedValue: string;
   radioItems: radioItems[];
 }) => {
   return (
@@ -45,6 +48,7 @@ export const Radio = ({
           label={item.displayName}
           onPress={setValue}
           value={item.value}
+          selected={item.value === selectedValue}
         />
       ))}
     </View>

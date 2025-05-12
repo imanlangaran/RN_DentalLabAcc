@@ -1,13 +1,13 @@
-import React, { Dispatch, SetStateAction } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import React, { Dispatch, SetStateAction } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
 
 const StyledButton = ({
-  selected=false,
+  selected = false,
   label,
   value,
   onPress,
-  className
-}:{
+  className,
+}: {
   selected?: boolean;
   label: string;
   value: string;
@@ -16,14 +16,22 @@ const StyledButton = ({
 }) => {
   return (
     <View className={`min-w-56 ${className}`}>
-      <TouchableOpacity 
-        className={`w-full text-center rounded-full py-2 ${selected ? ' text-white bg-primary ' : ' text-primary bg-secondary'}`}
+      <TouchableOpacity
+        className={`flex items-center justify-center py-2 rounded-full  ${
+          selected ? " bg-primary " : " bg-secondary"
+        }`}
         onPress={() => onPress(value)}
       >
-        {label}
+        <Text
+          className={`radioItem ${
+            selected ? "text-white" : "text-primary"
+          }`}
+        >
+          {label}
+        </Text>
       </TouchableOpacity>
     </View>
-  )
-}
+  );
+};
 
-export default StyledButton
+export default StyledButton;
