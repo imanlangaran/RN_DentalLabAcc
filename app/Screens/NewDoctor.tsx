@@ -1,56 +1,33 @@
-import StyledButton from "@/Components/StyledRadio";
-import { radioItems } from "@/Constants/Types";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { View } from "react-native";
+import { Radio } from "@/Components/CRadio";
+import i18n from "@/lang/i18n";
+import { useState } from "react";
+import { Text, View } from "react-native";
 
 const NewDoctor = () => {
   const [value, setValue] = useState("");
-  
+
   const radioItems = [
     {
-      value: "val1",
-      displayName: "disp1",
+      value: "Doctor",
+      displayName: i18n.t("Doctor"),
     },
     {
-      value: "val2",
-      displayName: "disp2",
+      value: "Clinic",
+      displayName: i18n.t("Clinic"),
     },
   ];
 
-  useEffect(() => {
-    console.log(value);
-  }, [value]);
+  // useEffect(() => {
+  //   console.log(value);
+  // }, [value]);
 
   return (
-    <View className="px-8">
-      <Radio setValue={setValue} radioItems={radioItems} selectedValue={value}/>
-    </View>
-  );
-};
-
-export const Radio = ({
-  setValue,
-  selectedValue,
-  radioItems,
-}: {
-  setValue: Dispatch<SetStateAction<string>>;
-  selectedValue: string;
-  radioItems: radioItems[];
-}) => {
-  return (
-    <View className="flex flex-row justify-evenly">
-      {/* <StyledButton label="label1" onPress={setValue} value="val1" />
-      <StyledButton label="label2" onPress={setValue} value="val2" /> 
-      */}
-      {radioItems.map((item, index) => (
-        <StyledButton
-          key={index}
-          label={item.displayName}
-          onPress={setValue}
-          value={item.value}
-          selected={item.value === selectedValue}
-        />
-      ))}
+    <View className="px-8 w-full h-full flex justify-center">
+      <Radio
+        setValue={setValue}
+        radioItems={radioItems}
+        selectedValue={value}
+      />
     </View>
   );
 };
