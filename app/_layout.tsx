@@ -18,6 +18,9 @@ export default function RootLayout() {
               backgroundColor: "transparent",
             },
             headerShadowVisible: false,
+            contentStyle:{
+              direction: "rtl"
+            }
           }}
         />
       </Stack>
