@@ -1,4 +1,4 @@
-import { Radio } from "@/Components/CRadio";
+import Radio from "@/Components/CRadio";
 import i18n from "@/lang/i18n";
 import { useState } from "react";
 import { Text, View } from "react-native";

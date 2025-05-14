@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction } from "react";
 import { View } from "react-native";
 import StyledButton from "@/Components/StyledButton";
 
-export const Radio = ({
+const Radio = ({
   setValue,
   selectedValue,
   radioItems,
