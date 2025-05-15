@@ -45,7 +45,7 @@ const CInput = ({ label }: any) => {
     <View className="w-full flex items-start">
       <Text>{label}</Text>
       <TextInput 
-      className="w-full p-2 mt-1 border rounded-xl border-none bg-secondary outline-none text-center" 
+      className="w-full p-2 mt-1 border rounded-xl border-none bg-secondary outline-none text-center border-secondary" 
       />
     </View>
   );
