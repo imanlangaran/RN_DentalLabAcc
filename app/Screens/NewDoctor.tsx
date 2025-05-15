@@ -1,7 +1,7 @@
 import Radio from "@/Components/CRadio";
 import i18n from "@/lang/i18n";
 import { useState } from "react";
-import { Text, TextInput, View } from "react-native";
+import { ScrollView, Text, TextInput, View } from "react-native";
 
 const NewDoctor = () => {
   const [value, setValue] = useState("");
@@ -22,7 +22,8 @@ const NewDoctor = () => {
   // }, [value]);
 
   return (
-    <View className="px-8 w-full h-full flex justify-center">
+    <ScrollView className="px-8 w-full h-full ">
+      <View className="flex justify-center ">
       <Radio
         setValue={setValue}
         radioItems={radioItems}
@@ -31,21 +32,23 @@ const NewDoctor = () => {
 
       {value !== "" && (
         <View className="flex flex-col gap-4 mt-6 justify-center items-center">
-          <CInput label="text1" />
-          <CInput label="text2" />
-          <CInput label="text13" />
+            <CInput label={`text`} />
         </View>
       )}
     </View>
+    </ScrollView>
+
   );
 };
 
-const CInput = ({ label }: any) => {
+const CInput = ({ label, InputValue, InputValueHandler }: any) => {
   return (
     <View className="w-full flex items-start">
-      <Text>{label}</Text>
+      <Text className="text-black text-xl">{label}</Text>
       <TextInput 
-      className="w-full p-2 mt-1 border rounded-xl border-none bg-secondary outline-none text-center border-secondary" 
+        className="w-full p-2 mt-1 border rounded-xl border-none bg-secondary outline-none text-center border-secondary text-primary text-xl py-3 "
+        value={InputValue}
+        onChange={InputValueHandler}
       />
     </View>
   );
