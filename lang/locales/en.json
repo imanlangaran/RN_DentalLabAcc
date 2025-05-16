@@ -4,5 +4,12 @@
   "doctors": "Doctors",
   "newDoctor": "New Doctor",
   "Doctor": "Doctor",
-  "Clinic": "Clinic"
+  "Clinic": "Clinic",
+
+  
+  "Name": "Name",
+  "Address": "Address",
+  "Phone": "Phone",
+  "Phone2": "Phone 2",
+  "Start Colaboration Date": "Start Collaboration Date"
 }

@@ -4,5 +4,11 @@
   "doctors": "پزشکها",
   "newDoctor": "پزشک جدید",
   "Doctor": "پزشک",
-  "Clinic": "کلینیک"
+  "Clinic": "کلینیک",
+
+  "Name": "نام",
+  "Address": "آدرس",
+  "Phone": "شماره تماس",
+  "Phone2": "شماره تماس ۲",
+  "Start Colaboration Date": "تاریخ شروع همکاری"
 }

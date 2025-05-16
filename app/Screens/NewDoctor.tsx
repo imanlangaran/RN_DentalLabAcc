@@ -1,10 +1,20 @@
+import CInput from "@/Components/CInput";
 import Radio from "@/Components/CRadio";
 import i18n from "@/lang/i18n";
+import { useDoctor } from "@/models/useDoctor";
 import { useState } from "react";
-import { ScrollView, Text, TextInput, View } from "react-native";
+import { ScrollView, View } from "react-native";
 
 const NewDoctor = () => {
   const [value, setValue] = useState("");
+  const doctor = useDoctor({
+    name: '',
+    address: '',
+    phone: '',
+    phone2: '',
+    colabStartDate: new Date(),
+    isActive: true,
+  })
 
   const radioItems = [
     {
@@ -22,35 +32,49 @@ const NewDoctor = () => {
   // }, [value]);
 
   return (
-    <ScrollView className="px-8 w-full h-full ">
-      <View className="flex justify-center ">
-      <Radio
-        setValue={setValue}
-        radioItems={radioItems}
-        selectedValue={value}
-      />
+    <ScrollView className="px-8 w-full h-full bg-white">
+      <View className={`flex justify-center min-h-full `}>
+        {/* <View
+  className={`flex ${value === "" ? "flex-1 min-h-[500px] justify-center " : "justify-center"}`}
+> */}
+        <Radio
+          setValue={setValue}
+          radioItems={radioItems}
+          selectedValue={value}
+        />
 
-      {value !== "" && (
-        <View className="flex flex-col gap-4 mt-6 justify-center items-center">
-            <CInput label={`text`} />
-        </View>
-      )}
-    </View>
+        {value !== "" && (
+          <View className="flex flex-col gap-4 mt-6 justify-center items-center">
+            <CInput
+              label={i18n.t('Name')}
+              InputValue={doctor.name}
+              InputValueHandler={(e: any) => doctor.setName(e.nativeEvent.text)}
+            />
+            <CInput
+              label={i18n.t('Address')}
+              InputValue={doctor.address}
+              InputValueHandler={(e: any) => doctor.setAddress(e.nativeEvent.text)}
+            />
+            <CInput
+              label={i18n.t('Phone')}
+              InputValue={doctor.phone}
+              InputValueHandler={(e: any) => doctor.setPhone(e.nativeEvent.text)}
+            />
+            <CInput
+              label={i18n.t('Phone2')}
+              InputValue={doctor.phone2}
+              InputValueHandler={(e: any) => doctor.setPhone2(e.nativeEvent.text)}
+            />
+            {/* <CInput
+              label={i18n.t('Start Colaboration Date')}
+              InputValue={doctor.colabStartDate}
+              InputValueHandler={(e: any) => doctor.setColabStartDate(e.nativeEvent.text)}
+            /> */}
+          </View>
+        )}
+      </View>
     </ScrollView>
 
-  );
-};
-
-const CInput = ({ label, InputValue, InputValueHandler }: any) => {
-  return (
-    <View className="w-full flex items-start">
-      <Text className="text-black text-xl">{label}</Text>
-      <TextInput 
-        className="w-full p-2 mt-1 border rounded-xl border-none bg-secondary outline-none text-center border-secondary text-primary text-xl py-3 "
-        value={InputValue}
-        onChange={InputValueHandler}
-      />
-    </View>
   );
 };
 
