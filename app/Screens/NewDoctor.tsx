@@ -8,13 +8,13 @@ import { ScrollView, View } from "react-native";
 const NewDoctor = () => {
   const [value, setValue] = useState("");
   const doctor = useDoctor({
-    name: '',
-    address: '',
-    phone: '',
-    phone2: '',
+    name: "",
+    address: "",
+    phone: "",
+    phone2: "",
     colabStartDate: new Date(),
     isActive: true,
-  })
+  });
 
   const radioItems = [
     {
@@ -46,25 +46,25 @@ const NewDoctor = () => {
         {value !== "" && (
           <View className="flex flex-col gap-4 mt-6 justify-center items-center">
             <CInput
-              label={i18n.t('Name')}
+              label={i18n.t("Name")}
               InputValue={doctor.name}
-              InputValueHandler={(e: any) => doctor.setName(e.nativeEvent.text)}
+              InputValueHandler={(text) => doctor.setName(text)}
             />
-            <CInput
+            {/* <CInput
               label={i18n.t('Address')}
               InputValue={doctor.address}
               InputValueHandler={(e: any) => doctor.setAddress(e.nativeEvent.text)}
-            />
-            <CInput
+            /> */}
+            {/* <CInput
               label={i18n.t('Phone')}
               InputValue={doctor.phone}
               InputValueHandler={(e: any) => doctor.setPhone(e.nativeEvent.text)}
-            />
-            <CInput
+            /> */}
+            {/* <CInput
               label={i18n.t('Phone2')}
               InputValue={doctor.phone2}
               InputValueHandler={(e: any) => doctor.setPhone2(e.nativeEvent.text)}
-            />
+            /> */}
             {/* <CInput
               label={i18n.t('Start Colaboration Date')}
               InputValue={doctor.colabStartDate}

@@ -3,11 +3,11 @@ import { Text, TextInput, View } from "react-native";
 const CInput = ({
   label,
   InputValue,
-  InputValueHandler
+  InputValueHandler,
 }: {
   label: string;
   InputValue: string;
-  InputValueHandler: (e: { nativeEvent: { text: string } }) => void;
+  InputValueHandler: (text: string) => void;
 }) => {
   return (
     <View className="w-full flex items-start">
@@ -15,7 +15,7 @@ const CInput = ({
       <TextInput
         className="w-full p-2 mt-1 border rounded-3xl border-none bg-secondary outline-none text-center border-secondary text-primary text-xl py-3 "
         value={InputValue}
-        onChange={InputValueHandler}
+        onChangeText={InputValueHandler}
       />
     </View>
   );
