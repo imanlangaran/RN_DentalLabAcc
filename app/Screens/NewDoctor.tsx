@@ -51,21 +51,21 @@ const NewDoctor = () => {
               InputValue={doctor.name}
               InputValueHandler={(text) => doctor.setName(text)}
             />
-            {/* <CInput
-              label={i18n.t('Address')}
+            <CInput
+              label={i18n.t("Address")}
               InputValue={doctor.address}
-              InputValueHandler={(e: any) => doctor.setAddress(e.nativeEvent.text)}
-            /> */}
-            {/* <CInput
-              label={i18n.t('Phone')}
+              InputValueHandler={(text) => doctor.setAddress(text)}
+            />
+            <CInput
+              label={i18n.t("Phone")}
               InputValue={doctor.phone}
-              InputValueHandler={(e: any) => doctor.setPhone(e.nativeEvent.text)}
-            /> */}
-            {/* <CInput
-              label={i18n.t('Phone2')}
+              InputValueHandler={(text) => doctor.setPhone(text)}
+            />
+            <CInput
+              label={i18n.t("Phone2")}
               InputValue={doctor.phone2}
-              InputValueHandler={(e: any) => doctor.setPhone2(e.nativeEvent.text)}
-            /> */}
+              InputValueHandler={(text) => doctor.setPhone2(text)}
+            />
             {/* <CInput
               label={i18n.t('Start Colaboration Date')}
               InputValue={doctor.colabStartDate}
