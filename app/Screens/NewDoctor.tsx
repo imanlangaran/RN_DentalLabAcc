@@ -71,19 +71,19 @@ const NewDoctor = () => {
               InputValue={doctor.colabStartDate}
               InputValueHandler={(e: any) => doctor.setColabStartDate(e.nativeEvent.text)}
             /> */}
-
-            <BottomButton
-              title={i18n.t("Save Doctor")}
-              onPress={() => {
-                if (Platform.OS === "web") {
-                  window.alert(i18n.t("Successfully Saved"));
-                } else {
-                  Alert.alert(i18n.t("Success"), i18n.t("Successfully Saved"));
-                }
-              }}
-            />
           </View>
         )}
+        <BottomButton
+          title={i18n.t("Save Doctor")}
+          disable={value === ""}
+          onPress={() => {
+            if (Platform.OS === "web") {
+              window.alert(i18n.t("Successfully Saved"));
+            } else {
+              Alert.alert(i18n.t("Success"), i18n.t("Successfully Saved"));
+            }
+          }}
+        />
       </View>
     </ScrollView>
   );
