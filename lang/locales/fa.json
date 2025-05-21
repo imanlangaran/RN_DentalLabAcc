@@ -10,5 +10,9 @@
   "Address": "آدرس",
   "Phone": "شماره تماس",
   "Phone2": "شماره تماس ۲",
-  "Start Colaboration Date": "تاریخ شروع همکاری"
+  "Start Colaboration Date": "تاریخ شروع همکاری",
+
+  "Save Doctor": "ذخیره دکتر",
+  "Successfully Saved":"اطلاعات با موفقیت ذخیره شد.",
+  "Success": "موفقیت"
 }

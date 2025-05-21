@@ -1,9 +1,10 @@
+import BottomButton from "@/Components/BottomButton";
 import CInput from "@/Components/CInput";
 import Radio from "@/Components/CRadio";
 import i18n from "@/lang/i18n";
 import { useDoctor } from "@/models/useDoctor";
 import { useState } from "react";
-import { ScrollView, View } from "react-native";
+import { Alert, Platform, ScrollView, View } from "react-native";
 
 const NewDoctor = () => {
   const [value, setValue] = useState("");
@@ -70,11 +71,21 @@ const NewDoctor = () => {
               InputValue={doctor.colabStartDate}
               InputValueHandler={(e: any) => doctor.setColabStartDate(e.nativeEvent.text)}
             /> */}
+
+            <BottomButton
+              title={i18n.t("Save Doctor")}
+              onPress={() => {
+                if (Platform.OS === "web") {
+                  window.alert(i18n.t("Successfully Saved"));
+                } else {
+                  Alert.alert(i18n.t("Success"), i18n.t("Successfully Saved"));
+                }
+              }}
+            />
           </View>
         )}
       </View>
     </ScrollView>
-
   );
 };
 

@@ -6,10 +6,13 @@
   "Doctor": "Doctor",
   "Clinic": "Clinic",
 
-  
   "Name": "Name",
   "Address": "Address",
   "Phone": "Phone",
   "Phone2": "Phone 2",
-  "Start Colaboration Date": "Start Collaboration Date"
+  "Start Colaboration Date": "Start Collaboration Date",
+
+  "Save Doctor": "Save Doctor",
+  "Successfully Saved": "Successfully Saved",
+  "Success": "Success"
 }
