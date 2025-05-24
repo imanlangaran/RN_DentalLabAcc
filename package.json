@@ -43,7 +43,8 @@
     "react-native-web": "~0.20.0",
     "react-native-webview": "13.13.5",
     "tailwindcss": "^3.4.17",
-    "@react-native-segmented-control/segmented-control": "2.5.7"
+    "@react-native-segmented-control/segmented-control": "2.5.7",
+    "expo-sqlite": "~15.2.10"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
