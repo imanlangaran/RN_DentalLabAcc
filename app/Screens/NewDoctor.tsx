@@ -2,9 +2,10 @@ import BottomButton from "@/Components/BottomButton";
 import CInput from "@/Components/CInput";
 import Radio from "@/Components/CRadio";
 import i18n from "@/lang/i18n";
-import { useDoctor } from "@/models/useDoctor";
+import { useDoctor } from "@/hooks/useDoctor";
 import { useState } from "react";
 import { Alert, Platform, ScrollView, View } from "react-native";
+import { Doctor } from "@/models/Doctor";
 
 const NewDoctor = () => {
   const [value, setValue] = useState("");
@@ -28,9 +29,26 @@ const NewDoctor = () => {
     },
   ];
 
-  // useEffect(() => {
-  //   console.log(value);
-  // }, [value]);
+  const handleSave = async () => {
+    const doctorInstance = new Doctor({
+      name: doctor.name,
+      address: doctor.address,
+      phone: doctor.phone,
+      phone2: doctor.phone2,
+      colabStartDate: doctor.colabStartDate,
+      isActive: doctor.isActive,
+    });
+
+    const result = await doctorInstance.save();
+
+    if (result) {
+      if (Platform.OS === "web") {
+        window.alert(i18n.t("Successfully Saved"));
+      } else {
+        Alert.alert(i18n.t("Success"), i18n.t("Successfully Saved"));
+      }
+    }
+  };
 
   return (
     <ScrollView className="px-8 w-full h-full bg-white">
@@ -76,13 +94,7 @@ const NewDoctor = () => {
         <BottomButton
           title={i18n.t("Save Doctor")}
           disable={value === ""}
-          onPress={() => {
-            if (Platform.OS === "web") {
-              window.alert(i18n.t("Successfully Saved"));
-            } else {
-              Alert.alert(i18n.t("Success"), i18n.t("Successfully Saved"));
-            }
-          }}
+          onPress={handleSave}
         />
       </View>
     </ScrollView>

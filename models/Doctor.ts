@@ -8,9 +8,14 @@ export class Doctor implements DoctorValues {
   colabStartDate: Date;
   isActive: boolean;
 
-  
-
-  constructor({ name, address, phone, phone2, colabStartDate, isActive }: DoctorValues) {
+  constructor({
+    name,
+    address,
+    phone,
+    phone2,
+    colabStartDate,
+    isActive,
+  }: DoctorValues) {
     this.name = name;
     this.address = address;
     this.phone = phone;
@@ -33,6 +38,14 @@ export class Doctor implements DoctorValues {
 
   static get fieldNames() {
     return DoctorFieldNames;
+  }
+
+  async save() {
+    // Here you can implement saving logic (API, AsyncStorage, etc.)
+    // For now, just log or simulate saving
+    console.log("Saving doctor:", this);
+    // Example: await api.saveDoctor(this);
+    return true;
   }
 }
 
