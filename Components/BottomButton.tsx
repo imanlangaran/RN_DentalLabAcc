@@ -4,13 +4,15 @@ const BottomButton = ({
   title,
   onPress,
   disable = false,
+  className = ''
 }: {
   title: string;
   onPress: () => void;
   disable: boolean;
+  className?: string;
 }) => (
   <TouchableOpacity
-    className="bg-blue-500 rounded-full py-3 w-full mt-8 shadow-md active:opacity-80"
+    className={`bg-blue-500 rounded-full w-full shadow-md active:opacity-80 ${className}`}
     onPress={onPress}
   >
     <Text className="text-white text-center text-base font-bold">

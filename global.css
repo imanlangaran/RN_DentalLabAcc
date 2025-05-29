@@ -6,4 +6,12 @@
   .radioItem {
     @apply text-xl;
   }
+  
+  .screen-container{
+    @apply flex flex-col relative w-full h-full;
+  }
+
+  .bottom-navigation-bar-container{
+    @apply absolute w-full bottom-10 mx-3;
+  }
 }

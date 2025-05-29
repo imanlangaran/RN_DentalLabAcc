@@ -4,5 +4,6 @@
 - [ ] saving functionality
 - [ ] implement drizzle
 - [ ] define db/schema.ts
+- [ ] fix bottom button
 
 ...

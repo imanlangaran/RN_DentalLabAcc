@@ -51,53 +51,59 @@ const NewDoctor = () => {
   };
 
   return (
-    <ScrollView className="px-8 w-full h-full bg-white">
-      <View className={`flex justify-center min-h-full `}>
-        {/* <View
+    <View className="screen-container">
+      <ScrollView className="px-8 w-full bg-white">
+        <View className={`flex justify-center min-h-full `}>
+          {/* <View
   className={`flex ${value === "" ? "flex-1 min-h-[500px] justify-center " : "justify-center"}`}
 > */}
-        <Radio
-          setValue={setValue}
-          radioItems={radioItems}
-          selectedValue={value}
-        />
+          <Radio
+            setValue={setValue}
+            radioItems={radioItems}
+            selectedValue={value}
+          />
 
-        {value !== "" && (
-          <View className="flex flex-col gap-4 mt-6 justify-center items-center">
-            <CInput
-              label={i18n.t("Name")}
-              InputValue={doctor.name}
-              InputValueHandler={(text) => doctor.setName(text)}
-            />
-            <CInput
-              label={i18n.t("Address")}
-              InputValue={doctor.address}
-              InputValueHandler={(text) => doctor.setAddress(text)}
-            />
-            <CInput
-              label={i18n.t("Phone")}
-              InputValue={doctor.phone}
-              InputValueHandler={(text) => doctor.setPhone(text)}
-            />
-            <CInput
-              label={i18n.t("Phone2")}
-              InputValue={doctor.phone2}
-              InputValueHandler={(text) => doctor.setPhone2(text)}
-            />
-            {/* <CInput
+          {value !== "" && (
+            <View className="flex flex-col gap-4 mt-6 justify-center items-center">
+              <CInput
+                label={i18n.t("Name")}
+                InputValue={doctor.name}
+                InputValueHandler={(text) => doctor.setName(text)}
+              />
+              <CInput
+                label={i18n.t("Address")}
+                InputValue={doctor.address}
+                InputValueHandler={(text) => doctor.setAddress(text)}
+              />
+              <CInput
+                label={i18n.t("Phone")}
+                InputValue={doctor.phone}
+                InputValueHandler={(text) => doctor.setPhone(text)}
+              />
+              <CInput
+                label={i18n.t("Phone2")}
+                InputValue={doctor.phone2}
+                InputValueHandler={(text) => doctor.setPhone2(text)}
+              />
+              {/* <CInput
               label={i18n.t('Start Colaboration Date')}
               InputValue={doctor.colabStartDate}
               InputValueHandler={(e: any) => doctor.setColabStartDate(e.nativeEvent.text)}
             /> */}
-          </View>
-        )}
+            </View>
+          )}
+        </View>
+      </ScrollView>
+      <View 
+      className="bottom-navigation-bar-container">
         <BottomButton
           title={i18n.t("Save Doctor")}
           disable={value === ""}
           onPress={handleSave}
+          className="mt-8 py-3"
         />
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
