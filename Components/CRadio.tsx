@@ -7,10 +7,12 @@ const Radio = ({
   setValue,
   selectedValue,
   radioItems,
+  defaultValue,
 }: {
   setValue: Dispatch<SetStateAction<string>>;
   selectedValue: string;
   radioItems: radioItems[];
+  defaultValue: string;
 }) => {
   return (
     <View className="flex flex-row justify-evenly">
@@ -24,6 +26,7 @@ const Radio = ({
           onPress={setValue}
           value={item.value}
           selected={item.value === selectedValue}
+          defaultValue={defaultValue}
         />
       ))}
     </View>

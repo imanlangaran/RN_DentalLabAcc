@@ -7,25 +7,25 @@ const StyledButton = ({
   value,
   onPress,
   className,
+  defaultValue,
 }: {
   selected?: boolean;
   label: string;
   value: string;
   onPress: Dispatch<SetStateAction<string>>;
   className?: string;
+  defaultValue: string;
 }) => {
   return (
     <View className={`w-2/5 md:min-w-56 min-w-24 ${className}`}>
       <TouchableOpacity
-        className={`flex items-center justify-center py-2 rounded-full  ${
-          selected ? " bg-primary " : " bg-secondary"
-        }`}
-        onPress={() => onPress(value)}
+        className={`flex items-center justify-center py-2 rounded-full  ${selected ? " bg-primary " : " bg-secondary"
+          }`}
+        onPress={() => onPress(selected ? defaultValue : value)}
       >
         <Text
-          className={`radioItem ${
-            selected ? "text-white" : "text-primary"
-          }`}
+          className={`radioItem ${selected ? "text-white" : "text-primary"
+            }`}
         >
           {label}
         </Text>
