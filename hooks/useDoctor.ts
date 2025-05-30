@@ -1,8 +1,13 @@
-import { DoctorValues } from "@/Constants/Types";
+import { DoctorValues } from "@/models/Doctor";
 import { useState } from "react";
 
-export function useDoctor(initialValues: DoctorValues) {
+type UIDoctorValues = Omit<DoctorValues, 'type'> & {
+  type: "" | DoctorValues["type"]
+}
+
+export function useDoctor(initialValues: UIDoctorValues) {
   const [name, setName] = useState(initialValues.name);
+  const [type, setType] = useState(initialValues.type);
   const [address, setAddress] = useState(initialValues.address);
   const [phone, setPhone] = useState(initialValues.phone);
   const [phone2, setPhone2] = useState(initialValues.phone2);
@@ -11,6 +16,7 @@ export function useDoctor(initialValues: DoctorValues) {
 
   // Getters
   const getName = () => name;
+  const getType = () => type;
   const getAddress = () => address;
   const getPhone = () => phone;
   const getPhone2 = () => phone2;
@@ -19,6 +25,7 @@ export function useDoctor(initialValues: DoctorValues) {
 
   // Setters
   const setDoctorName = setName;
+  const setDoctorType = setType;
   const setDoctorAddress = setAddress;
   const setDoctorPhone = setPhone;
   const setDoctorPhone2 = setPhone2;
@@ -28,11 +35,20 @@ export function useDoctor(initialValues: DoctorValues) {
   // Return all
   return {
     name, setName: setDoctorName, getName,
+    type, setType: setDoctorType, getType,
     address, setAddress: setDoctorAddress, getAddress,
     phone, setPhone: setDoctorPhone, getPhone,
     phone2, setPhone2: setDoctorPhone2, getPhone2,
     colabStartDate, setColabStartDate: setDoctorColabStartDate, getColabStartDate,
     isActive, setIsActive: setDoctorIsActive, getIsActive,
-    getDoctorValues: () => ({ name, address, phone, phone2, colabStartDate, isActive })
+    getDoctorValues: () => ({ 
+      name, 
+      type,
+      address, 
+      phone, 
+      phone2, 
+      colabStartDate, 
+      isActive 
+    } as DoctorValues)
   };
 }

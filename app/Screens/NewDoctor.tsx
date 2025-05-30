@@ -3,7 +3,6 @@ import CInput from "@/Components/CInput";
 import Radio from "@/Components/CRadio";
 import i18n from "@/lang/i18n";
 import { useDoctor } from "@/hooks/useDoctor";
-import { useState } from "react";
 import { Alert, Platform, ScrollView, View } from "react-native";
 import { Doctor } from "@/models/Doctor";
 import { buttomButtonStyle } from "@/styles";
@@ -11,9 +10,9 @@ import { buttomButtonStyle } from "@/styles";
 const DEFAULT_VALUE = '';
 
 const NewDoctor = () => {
-  const [value, setValue] = useState(DEFAULT_VALUE);
   const doctor = useDoctor({
     name: "",
+    type: "",
     address: "",
     phone: "",
     phone2: "",
@@ -23,18 +22,21 @@ const NewDoctor = () => {
 
   const radioItems = [
     {
-      value: "Doctor",
+      value: "doctor",
       displayName: i18n.t("Doctor"),
     },
     {
-      value: "Clinic",
+      value: "clinic",
       displayName: i18n.t("Clinic"),
     },
   ];
 
   const handleSave = async () => {
+    if(doctor.type === DEFAULT_VALUE) return;
+
     const doctorInstance = new Doctor({
       name: doctor.name,
+      type: doctor.type,
       address: doctor.address,
       phone: doctor.phone,
       phone2: doctor.phone2,
@@ -61,13 +63,13 @@ const NewDoctor = () => {
   className={`flex ${value === "" ? "flex-1 min-h-[500px] justify-center " : "justify-center"}`}
 > */}
           <Radio
-            setValue={setValue}
+            setValue={doctor.setType}
             radioItems={radioItems}
-            selectedValue={value}
+            selectedValue={doctor.type}
             defaultValue={DEFAULT_VALUE}
           />
 
-          {value !== "" && (
+          {doctor.type !== DEFAULT_VALUE && (
             <View className="flex flex-col gap-4 mt-6 justify-center items-center">
               <CInput
                 label={i18n.t("Name")}
@@ -104,7 +106,7 @@ const NewDoctor = () => {
       >
         <BottomButton
           title={i18n.t("Save Doctor")}
-          disable={value === ""}
+          disable={doctor.type === ""}
           disabledText={i18n.t('Select')}
           onPress={handleSave}
           className="mt-8 py-3"
