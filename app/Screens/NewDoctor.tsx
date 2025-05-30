@@ -6,9 +6,12 @@ import { useDoctor } from "@/hooks/useDoctor";
 import { useState } from "react";
 import { Alert, Platform, ScrollView, View } from "react-native";
 import { Doctor } from "@/models/Doctor";
+import { buttomButtonStyle } from "@/styles";
+
+const DEFAULT_VALUE = '';
 
 const NewDoctor = () => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(DEFAULT_VALUE);
   const doctor = useDoctor({
     name: "",
     address: "",
@@ -52,7 +55,7 @@ const NewDoctor = () => {
 
   return (
     <View className="screen-container">
-      <ScrollView className="px-8 w-full bg-white">
+      <ScrollView className="px-8 w-full">
         <View className={`flex justify-center min-h-full `}>
           {/* <View
   className={`flex ${value === "" ? "flex-1 min-h-[500px] justify-center " : "justify-center"}`}
@@ -61,6 +64,7 @@ const NewDoctor = () => {
             setValue={setValue}
             radioItems={radioItems}
             selectedValue={value}
+            defaultValue={DEFAULT_VALUE}
           />
 
           {value !== "" && (
@@ -94,11 +98,14 @@ const NewDoctor = () => {
           )}
         </View>
       </ScrollView>
-      <View 
-      className="bottom-navigation-bar-container">
+      <View
+        // className="bottom-navigation-bar-container"
+        style={buttomButtonStyle.button}
+      >
         <BottomButton
           title={i18n.t("Save Doctor")}
           disable={value === ""}
+          disabledText={i18n.t('Select')}
           onPress={handleSave}
           className="mt-8 py-3"
         />
