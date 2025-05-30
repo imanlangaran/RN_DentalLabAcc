@@ -42,7 +42,7 @@ export default function RootLayout() {
             headerBackButtonMenuEnabled: true,
             headerTitleAlign: "center",
             headerStyle: {
-              backgroundColor: "transparent",
+              backgroundColor: "white",
             },
             headerShadowVisible: false,
             contentStyle: {
