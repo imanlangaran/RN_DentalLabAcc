@@ -4,6 +4,7 @@
 - [x] fix bottom button
 - [x] implement drizzle
 - [x] define db/schema.ts
-- [ ] saving functionality
+- [x] saving functionality
+- [ ] CRadio Typescript error
 
 ...

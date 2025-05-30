@@ -9,7 +9,7 @@ const Radio = ({
   radioItems,
   defaultValue,
 }: {
-  setValue: Dispatch<SetStateAction<string>>;
+  setValue: Dispatch<SetStateAction<'clinic' | 'doctor' | ''>>;
   selectedValue: string;
   radioItems: radioItems[];
   defaultValue: string;

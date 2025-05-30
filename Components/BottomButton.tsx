@@ -15,7 +15,7 @@ const BottomButton = ({
 }) => (
   <TouchableOpacity
     className={`bg-blue-500 rounded-full w-full shadow-md active:opacity-80 ${className}`}
-    onPress={onPress}
+    onPress={disable ? undefined : onPress}
   >
     <Text className="text-white text-center text-base font-bold">
       {disable ? disabledText : title}
