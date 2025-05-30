@@ -1,9 +1,9 @@
 # Dental Accounting App
 
 - [x] new doctor save button
+- [x] fix bottom button
+- [x] implement drizzle
+- [x] define db/schema.ts
 - [ ] saving functionality
-- [ ] implement drizzle
-- [ ] define db/schema.ts
-- [ ] fix bottom button
 
 ...
