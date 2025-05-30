@@ -15,7 +15,7 @@ const Radio = ({
   defaultValue: string;
 }) => {
   return (
-    <View className="flex flex-row justify-evenly">
+    <View className="flex flex-row justify-between">
       {/* <StyledButton label="label1" onPress={setValue} value="val1" />
       <StyledButton label="label2" onPress={setValue} value="val2" /> 
       */}
