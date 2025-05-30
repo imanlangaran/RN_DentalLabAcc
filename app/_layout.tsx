@@ -33,7 +33,7 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={DefaultTheme}>
-      <Stack>
+      <Stack initialRouteName="Screens/NewDoctor">
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen
           name="Screens/NewDoctor"
