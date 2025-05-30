@@ -4,11 +4,13 @@ const BottomButton = ({
   title,
   onPress,
   disable = false,
+  disabledText,
   className = ''
 }: {
   title: string;
   onPress: () => void;
   disable: boolean;
+  disabledText: string;
   className?: string;
 }) => (
   <TouchableOpacity
@@ -16,7 +18,7 @@ const BottomButton = ({
     onPress={onPress}
   >
     <Text className="text-white text-center text-base font-bold">
-      {disable ? "no" : title}
+      {disable ? disabledText : title}
     </Text>
   </TouchableOpacity>
 );
