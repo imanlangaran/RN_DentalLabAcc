@@ -3,12 +3,12 @@ import { Tabs } from "expo-router";
 
 const _layout = () => {
   return (
-    <Tabs>
+    <Tabs initialRouteName="Doctors">
       <Tabs.Screen name="index" />
       <Tabs.Screen
         name="Doctors"
         options={{
-          headerShown: false,
+          headerShown: true,       
         }}
       />
     </Tabs>
