@@ -2,6 +2,7 @@ import { View, Text } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'expo-router'
 import { Doctor, DoctorValues } from '@/models/Doctor'
+import DoctorCard from '@/Components/DoctorCard'
 
 const Doctors = () => {
   const [doctors, setDoctors] = useState<DoctorValues[]>([])
@@ -21,18 +22,6 @@ const Doctors = () => {
       {doctors.map((doctor) => (
         <DoctorCard key={doctor.id} doctor={doctor} />
       ))}
-    </View>
-  )
-}
-
-export const DoctorCard = ({ key, doctor }: {
-  key: number | undefined;
-  doctor: DoctorValues
-}) => {
-  return (
-    <View className='w-full min-h-54 bg-secondary my-2'>
-      <Text >{doctor.name}</Text>
-
     </View>
   )
 }
