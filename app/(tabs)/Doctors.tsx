@@ -15,12 +15,24 @@ const Doctors = () => {
   }, [])
 
   return (
-    <View >
+    <View className='px-8'>
       <Link href={'/Screens/NewDoctor'}> New Doctor </Link>
       <Text>Doctors</Text>
       {doctors.map((doctor) => (
-        <Text key={doctor.id}>{doctor.name}</Text>
+        <DoctorCard key={doctor.id} doctor={doctor} />
       ))}
+    </View>
+  )
+}
+
+export const DoctorCard = ({ key, doctor }: {
+  key: number | undefined;
+  doctor: DoctorValues
+}) => {
+  return (
+    <View className='w-full min-h-54 bg-secondary my-2'>
+      <Text >{doctor.name}</Text>
+
     </View>
   )
 }

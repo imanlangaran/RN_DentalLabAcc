@@ -5,7 +5,8 @@
 - [x] implement drizzle
 - [x] define db/schema.ts
 - [x] saving functionality
-- [ ] design doctors list page and page
+- [x] design doctors list page and page
+- [ ] implement doctors list page and page
 - [ ] CRadio Typescript error
 
 ...
