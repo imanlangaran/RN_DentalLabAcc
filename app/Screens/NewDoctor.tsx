@@ -6,10 +6,14 @@ import { useDoctor } from "@/hooks/useDoctor";
 import { Alert, Platform, ScrollView, View } from "react-native";
 import { Doctor } from "@/models/Doctor";
 import { buttomButtonStyle } from "@/styles";
+import { useLocalSearchParams } from "expo-router";
+import { useEffect, useCallback } from "react";
 
-const DEFAULT_VALUE = '';
+const DEFAULT_VALUE = "";
 
 const NewDoctor = () => {
+  const { id } = useLocalSearchParams<{ id: string }>();
+
   const doctor = useDoctor({
     name: "",
     type: "",
@@ -19,6 +23,17 @@ const NewDoctor = () => {
     colabStartDate: new Date(),
     isActive: true,
   });
+
+  const loadDoctor = useCallback(async () => {
+    if (id) {
+      const doctorData = await Doctor.getById(Number(id));
+      doctor.setDoctor(doctorData);
+    }
+  }, [id, doctor.setDoctor]);
+
+  useEffect(() => {
+    loadDoctor();
+  }, [loadDoctor]);
 
   const radioItems = [
     {
@@ -32,7 +47,7 @@ const NewDoctor = () => {
   ];
 
   const handleSave = async () => {
-    if(doctor.type === DEFAULT_VALUE) return;
+    if (doctor.type === DEFAULT_VALUE) return;
 
     const doctorInstance = new Doctor({
       name: doctor.name,
@@ -107,7 +122,7 @@ const NewDoctor = () => {
         <BottomButton
           title={i18n.t("Save Doctor")}
           disable={doctor.type === ""}
-          disabledText={i18n.t('Select')}
+          disabledText={i18n.t("Select")}
           onPress={handleSave}
           className="mt-8 py-3"
         />

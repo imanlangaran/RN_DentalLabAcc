@@ -32,6 +32,19 @@ export function useDoctor(initialValues: UIDoctorValues) {
   const setDoctorColabStartDate = setColabStartDate;
   const setDoctorIsActive = setIsActive;
 
+  // Add this new function
+  const setDoctor = (doctorData: DoctorValues | null) => {
+    if (doctorData) {
+      setName(doctorData.name);
+      setType(doctorData.type);
+      setAddress(doctorData.address);
+      setPhone(doctorData.phone);
+      setPhone2(doctorData.phone2);
+      setColabStartDate(doctorData.colabStartDate);
+      setIsActive(doctorData.isActive);
+    }
+  };
+
   // Return all
   return {
     name, setName: setDoctorName, getName,
@@ -49,6 +62,7 @@ export function useDoctor(initialValues: UIDoctorValues) {
       phone2, 
       colabStartDate, 
       isActive 
-    } as DoctorValues)
+    } as DoctorValues),
+    setDoctor // Add this to the returned object
   };
 }
