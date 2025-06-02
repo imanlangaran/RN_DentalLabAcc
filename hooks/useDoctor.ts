@@ -1,8 +1,9 @@
+import { DoctorType } from "@/Constants/Types";
 import { DoctorValues } from "@/models/Doctor";
 import { useState } from "react";
 
 type UIDoctorValues = Omit<DoctorValues, 'type'> & {
-  type: "" | DoctorValues["type"]
+  type: DoctorType
 }
 
 export function useDoctor(initialValues: UIDoctorValues) {
@@ -33,7 +34,7 @@ export function useDoctor(initialValues: UIDoctorValues) {
   const setDoctorIsActive = setIsActive;
 
   // Add this new function
-  const setDoctor = (doctorData: DoctorValues | null) => {
+  const setDoctor = (doctorData: DoctorValues) => {
     if (doctorData) {
       setName(doctorData.name);
       setType(doctorData.type);

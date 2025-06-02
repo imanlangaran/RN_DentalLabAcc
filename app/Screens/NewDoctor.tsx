@@ -26,8 +26,17 @@ const NewDoctor = () => {
 
   const loadDoctor = useCallback(async () => {
     if (id) {
-      const doctorData = await Doctor.getById(Number(id));
-      doctor.setDoctor(doctorData);
+      try {
+        const doctorData = await Doctor.getById(Number(id));
+        if (doctorData) {
+          doctor.setDoctor(doctorData);
+        } else {
+          Alert.alert(i18n.t("Error"), i18n.t("Doctor not found"));
+        }
+      } catch (error) {
+        console.error("Error loading doctor:", error);
+        Alert.alert(i18n.t("Error"), i18n.t("Error loading doctor"));
+      }
     }
   }, [id, doctor.setDoctor]);
 
