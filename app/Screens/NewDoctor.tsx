@@ -16,7 +16,7 @@ const NewDoctor = () => {
 
   const doctor = useDoctor({
     name: "",
-    type: "",
+    type: "doctor",
     address: "",
     phone: "",
     phone2: "",
