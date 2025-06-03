@@ -35,6 +35,7 @@ export default function RootLayout() {
     <ThemeProvider value={DefaultTheme}>
       {/* <Stack initialRouteName="Screens/NewDoctor"> */}
       <Stack>
+        <Stack.Screen name="index" redirect={true} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen
           name="Screens/NewDoctor"
