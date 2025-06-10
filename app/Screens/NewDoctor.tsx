@@ -6,13 +6,14 @@ import { useDoctor } from "@/hooks/useDoctor";
 import { Alert, Platform, ScrollView, View } from "react-native";
 import { Doctor } from "@/models/Doctor";
 import { buttomButtonStyle } from "@/styles";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useCallback, useState } from "react";
 import { KeyboardProvider, useKeyboardState } from "react-native-keyboard-controller";
 
 const DEFAULT_VALUE = "";
 
 const NewDoctor = () => {
+  const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
   const [fakePaddingSV, setFakePaddingSV] = useState<number>(0);
   const { height } = useKeyboardState();
@@ -78,6 +79,8 @@ const NewDoctor = () => {
       } else {
         Alert.alert(i18n.t("Success"), i18n.t("Successfully Saved"));
       }
+
+      router.back();
     }
   };
 
@@ -161,11 +164,9 @@ const NewDoctor = () => {
         </View >
 
         {/* keyboard view */}
-        <View
-          // className='w-full h-[300px]' 
+        <View 
           className='w-full'
           style={{ height: height }}
-        // style={{height:300}}
         />
       </View>
 
