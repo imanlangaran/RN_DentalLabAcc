@@ -44,6 +44,7 @@ const NewDoctor2 = () => {
           <ScrollView
             className='flex w-full h-full px-8 '
             contentContainerClassName='grow justify-center'
+            keyboardDismissMode='on-drag'
           >
 
             <Radio
