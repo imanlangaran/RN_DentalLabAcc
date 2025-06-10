@@ -12,10 +12,13 @@ import { KeyboardProvider, useKeyboardState } from "react-native-keyboard-contro
 
 const DEFAULT_VALUE = "";
 
+enum state { 'new', 'edit', 'notLoaded' }
+
 const NewDoctor = () => {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
   const [fakePaddingSV, setFakePaddingSV] = useState<number>(0);
+  const [thisState, setThisState] = useState<state>(state.notLoaded);
   const { height } = useKeyboardState();
   const doctor = useDoctor({
     name: "",
@@ -50,18 +53,23 @@ const NewDoctor = () => {
       } catch (error) {
         console.error("Error loading doctor:", error);
         Alert.alert(i18n.t("Error"), i18n.t("Error loading doctor"));
+      } finally {
+        setThisState(state.edit);
       }
+    } else {
+      setThisState(state.new);
     }
   }, [id, doctor.setDoctor]);
 
   useEffect(() => {
-    loadDoctor();
+    if (thisState === state.notLoaded) loadDoctor();
   }, [loadDoctor]);
 
   const handleSave = async () => {
     if (doctor.type === DEFAULT_VALUE) return;
 
     const doctorInstance = new Doctor({
+      id: (id && thisState === state.edit) ? Number(id) : undefined,
       name: doctor.name,
       type: doctor.type,
       address: doctor.address,
@@ -164,7 +172,7 @@ const NewDoctor = () => {
         </View >
 
         {/* keyboard view */}
-        <View 
+        <View
           className='w-full'
           style={{ height: height }}
         />
