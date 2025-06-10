@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Link } from "expo-router";
 import { Doctor, DoctorValues } from "@/models/Doctor";
 import DoctorCard from "@/Components/DoctorCard";
+import { useFocusEffect } from "@react-navigation/native";
 
 const Doctors = () => {
   const [doctors, setDoctors] = useState<DoctorValues[]>([]);
@@ -11,6 +12,12 @@ const Doctors = () => {
     const doctorsList = await Doctor.getAll();
     setDoctors(doctorsList);
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadDoctors();
+    }, [loadDoctors])
+  );
 
   const handleInsertSampleDoctor = async () => {
     try {
@@ -35,10 +42,7 @@ const Doctors = () => {
       Alert.alert("Error", "Error saving doctor");
     }
   };
-
-  useEffect(() => {
-    loadDoctors();
-  }, [loadDoctors]);
+  
 
   return (
     <View className="px-8">
