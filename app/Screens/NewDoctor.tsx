@@ -19,7 +19,7 @@ const NewDoctor = () => {
   const { height } = useKeyboardState();
   const doctor = useDoctor({
     name: "",
-    type: "doctor",
+    type: DEFAULT_VALUE,
     address: "",
     phone: "",
     phone2: "",
@@ -164,7 +164,7 @@ const NewDoctor = () => {
         </View >
 
         {/* keyboard view */}
-        <View 
+        <View
           className='w-full'
           style={{ height: height }}
         />

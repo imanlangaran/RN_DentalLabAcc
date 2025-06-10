@@ -42,10 +42,7 @@ const Doctors = () => {
       Alert.alert("Error", "Error saving doctor");
     }
   };
-
-  // useEffect(() => {
-  //   loadDoctors();
-  // }, [loadDoctors]);
+  
 
   return (
     <View className="px-8">

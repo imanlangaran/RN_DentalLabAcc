@@ -4,11 +4,10 @@ import { FontAwesome6, Ionicons } from '@expo/vector-icons';
 
 const _layout = () => {
   return (
-    <Tabs 
-    initialRouteName="Doctors"
-    screenOptions={{
-      animation: 'shift',
-    }}
+    <Tabs
+      screenOptions={{
+        animation: 'shift',
+      }}
     >
       <Tabs.Screen name="index"
         options={{
