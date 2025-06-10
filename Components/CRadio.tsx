@@ -8,14 +8,16 @@ const Radio = ({
   selectedValue,
   radioItems,
   defaultValue,
+  disabled = false
 }: {
-  setValue: Dispatch<SetStateAction<'clinic' | 'doctor' | ''>>;
+  setValue?: Dispatch<SetStateAction<'clinic' | 'doctor' | ''>>;
   selectedValue: string;
   radioItems: radioItems[];
-  defaultValue: string;
+  defaultValue?: string;
+  disabled?: boolean;
 }) => {
   return (
-    <View className="flex flex-row justify-between">
+    <View className={`flex flex-row ${radioItems.length !== 1 ? "justify-between" : "justify-center"}`}>
       {/* <StyledButton label="label1" onPress={setValue} value="val1" />
       <StyledButton label="label2" onPress={setValue} value="val2" /> 
       */}
@@ -27,6 +29,7 @@ const Radio = ({
           value={item.value}
           selected={item.value === selectedValue}
           defaultValue={defaultValue}
+          disabled={disabled}
         />
       ))}
     </View>

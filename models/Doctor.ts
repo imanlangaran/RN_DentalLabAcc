@@ -1,6 +1,6 @@
 import { dbService } from "@/db/drizzle";
-import { doctors } from "@/db/schema";
-
+import { doctors, doctorAssociations, type Doctor as DrizzleDoctor, type DoctorAssociation } from "@/db/schema";
+import { eq } from "drizzle-orm";
   export type DoctorValues = {
     id?: number;
     name: string;
@@ -10,6 +10,7 @@ import { doctors } from "@/db/schema";
     colabStartDate: Date;
     isActive: boolean;
     type: "doctor" | "clinic";
+    associatedDoctors?: number[];
   };
 
 export class Doctor {
@@ -31,6 +32,7 @@ export class Doctor {
   public colabStartDate: Date;
   public isActive: boolean;
   public type: "doctor" | "clinic";
+  public associatedDoctors?: number[];
 
   constructor({
     id,
@@ -41,6 +43,7 @@ export class Doctor {
     colabStartDate,
     isActive,
     type = "doctor",
+    associatedDoctors,
   }: DoctorValues) {
     this.id = id;
     this.name = name;
@@ -50,6 +53,7 @@ export class Doctor {
     this.colabStartDate = colabStartDate;
     this.isActive = isActive;
     this.type = type;
+    this.associatedDoctors = associatedDoctors;
   }
 
   private toDatabase(): Record<string, any> {
@@ -87,6 +91,65 @@ export class Doctor {
     return Doctor.FIELD_NAMES;
   }
 
+  private async saveAssociations(): Promise<void> {
+    if (!this.id || !this.associatedDoctors?.length) return;
+
+    // Delete existing associations
+    const associations = await dbService.getAll<DoctorAssociation>(doctorAssociations);
+    const existingAssociations = associations.filter(a => a.doctorId === this.id);
+    
+    for (const assoc of existingAssociations) {
+      await dbService.delete(doctorAssociations, assoc.id);
+    }
+
+    // Insert new associations
+    for (const associatedDoctorId of this.associatedDoctors) {
+      await dbService.create(doctorAssociations, {
+        doctorId: this.id,
+        associatedDoctorId,
+      });
+    }
+  }
+
+  private async loadAssociations(): Promise<void> {
+    if (!this.id) return;
+    
+    const associations = await dbService.getAll<DoctorAssociation>(doctorAssociations);
+    const currentDoctorAssociations = associations.filter(a => a.doctorId === this.id);
+    this.associatedDoctors = currentDoctorAssociations.map(a => a.associatedDoctorId);
+  }
+
+  public static async getById(id: number): Promise<Doctor | null> {
+    try {
+      const doctorData = await dbService.getById<DrizzleDoctor>(doctors, id);
+      if (!doctorData) return null;
+
+      const doctor = Doctor.fromDatabase(doctorData);
+      await doctor.loadAssociations();
+      return doctor;
+    } catch (error) {
+      console.error("Error getting doctor by id:", error);
+      return null;
+    }
+  }
+
+  public static async getAll(): Promise<Doctor[]> {
+    try {
+      const doctorsData = await dbService.getAll<DrizzleDoctor>(doctors);
+      const doctorInstances = await Promise.all(
+        doctorsData.map(async (data) => {
+          const doctor = Doctor.fromDatabase(data);
+          await doctor.loadAssociations();
+          return doctor;
+        })
+      );
+      return doctorInstances;
+    } catch (error) {
+      console.error("Error getting all doctors:", error);
+      return [];
+    }
+  }
+
   public async save(): Promise<boolean> {
     try {
       const doctorData = this.toDatabase();
@@ -96,37 +159,13 @@ export class Doctor {
 
       if (result) {
         this.id = result.id;
+        await this.saveAssociations();
         return true;
       }
       return false;
     } catch (error) {
-      console.error("Error saving doctor:", error);
+      console.error('Error saving doctor:', error);
       return false;
     }
-  }
-
-  public static async getById(id: number): Promise<Doctor | null> {
-    try {
-      const doctorData = await dbService.getById(doctors, id);
-      return doctorData ? Doctor.fromDatabase(doctorData) : null;
-    } catch (error) {
-      console.error("Error getting doctor by id:", error);
-      return null;
-    }
-  }
-
-  public static async getAll(): Promise<Doctor[]> {
-    try {
-      const doctorsData = await dbService.getAll(doctors);
-      return doctorsData.map(doctor => Doctor.fromDatabase(doctor));
-    } catch (error) {
-      console.error("Error getting all doctors:", error);
-      return [];
-    }
-  }
-
-  public async delete(): Promise<boolean> {
-    if (!this.id) return false;
-    return await dbService.delete(doctors, this.id);
   }
 }

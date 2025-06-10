@@ -1,14 +1,16 @@
 import BottomButton from "@/Components/BottomButton";
 import CInput from "@/Components/CInput";
 import Radio from "@/Components/CRadio";
+import DoctorSelector from "@/Components/DoctorSelector";
 import i18n from "@/lang/i18n";
 import { useDoctor } from "@/hooks/useDoctor";
-import { Alert, Platform, ScrollView, View } from "react-native";
+import { Alert, Platform, ScrollView, View, Text, TouchableOpacity } from "react-native";
 import { Doctor } from "@/models/Doctor";
 import { buttomButtonStyle } from "@/styles";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useCallback, useState } from "react";
 import { KeyboardProvider, useKeyboardState } from "react-native-keyboard-controller";
+import StyledButton from "@/Components/StyledButton";
 
 const DEFAULT_VALUE = "";
 
@@ -19,6 +21,8 @@ const NewDoctor = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
   const [fakePaddingSV, setFakePaddingSV] = useState<number>(0);
   const [thisState, setThisState] = useState<state>(state.notLoaded);
+  const [showDoctorSelector, setShowDoctorSelector] = useState(false);
+  const [selectedDoctors, setSelectedDoctors] = useState<Doctor[]>([]);
   const { height } = useKeyboardState();
   const doctor = useDoctor({
     name: "",
@@ -77,6 +81,7 @@ const NewDoctor = () => {
       phone2: doctor.phone2,
       colabStartDate: doctor.colabStartDate,
       isActive: doctor.isActive,
+      associatedDoctors: selectedDoctors.map(d => d.id), // Add associated doctors
     });
 
     const result = await doctorInstance.save();
@@ -104,12 +109,31 @@ const NewDoctor = () => {
             contentContainerClassName='grow justify-center'
             keyboardDismissMode='on-drag'>
 
-            <Radio
-              setValue={doctor.setType}
-              radioItems={radioItems}
-              selectedValue={doctor.type}
-              defaultValue={DEFAULT_VALUE}
-            />
+            {(thisState === state.new) && (
+              <Radio
+                setValue={doctor.setType}
+                radioItems={radioItems}
+                selectedValue={doctor.type}
+                defaultValue={DEFAULT_VALUE}
+              />
+            )}
+
+            {(thisState === state.edit) && (
+              // <Radio
+              //   radioItems={
+              //     radioItems.filter(item => item.value === doctor.type)
+              //   }
+              //   selectedValue={doctor.type}
+              //   disabled
+              // />
+              <StyledButton
+                label={radioItems.filter(item => item.value === doctor.type)[0].displayName}
+                selected
+                disabled
+                containerClassName="w-full mb-2"
+                textClassName="py-2 text-2xl"
+              />
+            )}
 
             {doctor.type !== DEFAULT_VALUE && (
               <View className="flex flex-col gap-4 mt-6 justify-center items-center">
@@ -138,6 +162,55 @@ const NewDoctor = () => {
               InputValue={doctor.colabStartDate}
               InputValueHandler={(e: any) => doctor.setColabStartDate(e.nativeEvent.text)}
               /> */}
+
+                {/* Doctor selector section */}
+                {(doctor.type === 'clinic') && (
+
+                  <View className="w-full flex items-start">
+                    <Text className="text-black text-xl mb-2">{i18n.t("Associated Doctors")}</Text>
+                    <TouchableOpacity
+                      className="w-full p-2 rounded-3xl bg-secondary"
+                      onPress={() => setShowDoctorSelector(true)}
+                    >
+                      <Text className="text-center text-primary text-xl py-2">
+                        {selectedDoctors.length
+                          ? `${selectedDoctors.length} ${i18n.t("Doctors Selected")}`
+                          : i18n.t("Select Doctors")}
+                      </Text>
+                    </TouchableOpacity>
+
+                    {/* Selected doctors list */}
+                    {selectedDoctors.length > 0 && (
+                      <View className="w-full mt-2">
+                        {selectedDoctors.map((doctor) => (
+                          <View key={doctor.id} className="flex-row justify-between items-center bg-secondary/50 rounded-xl p-2 mb-2">
+                            <Text className="text-primary">{doctor.name}</Text>
+                            <TouchableOpacity
+                              onPress={() => setSelectedDoctors(selectedDoctors.filter(d => d.id !== doctor.id))}
+                              className="bg-primary/10 p-2 rounded-full"
+                            >
+                              <Text className="text-primary">✕</Text>
+                            </TouchableOpacity>
+                          </View>
+                        ))}
+                      </View>
+                    )}
+
+                    {/* Doctor selector modal */}
+                    <DoctorSelector
+                      visible={showDoctorSelector}
+                      onClose={() => setShowDoctorSelector(false)}
+                      onSelect={(selectedDoctor) => {
+                        if (!selectedDoctors.some(d => d.id === selectedDoctor.id)) {
+                          setSelectedDoctors([...selectedDoctors, selectedDoctor]);
+                        }
+                      }}
+                      selectedDoctors={selectedDoctors}
+                    />
+                  </View>
+                )}
+
+
               </View>
             )}
 

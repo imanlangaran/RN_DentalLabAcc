@@ -8,6 +8,13 @@
       "when": 1748276699505,
       "tag": "0000_skinny_caretaker",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1749573714742,
+      "tag": "0001_fair_bloodstrike",
+      "breakpoints": true
     }
   ]
 }
