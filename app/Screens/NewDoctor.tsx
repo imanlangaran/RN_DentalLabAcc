@@ -6,37 +6,23 @@ import { useDoctor } from "@/hooks/useDoctor";
 import { Alert, Platform, ScrollView, View } from "react-native";
 import { Doctor } from "@/models/Doctor";
 import { buttomButtonStyle } from "@/styles";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import { useEffect, useCallback, useState } from "react";
-import { KeyboardProvider, useKeyboardState } from "react-native-keyboard-controller";
+import { useLocalSearchParams } from "expo-router";
+import { useEffect, useCallback } from "react";
 
 const DEFAULT_VALUE = "";
 
 const NewDoctor = () => {
-  const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const [fakePaddingSV, setFakePaddingSV] = useState<number>(0);
-  const { height } = useKeyboardState();
+
   const doctor = useDoctor({
     name: "",
-    type: "doctor",
+    type: "",
     address: "",
     phone: "",
     phone2: "",
     colabStartDate: new Date(),
     isActive: true,
   });
-
-  const radioItems = [
-    {
-      value: "doctor",
-      displayName: i18n.t("Doctor"),
-    },
-    {
-      value: "clinic",
-      displayName: i18n.t("Clinic"),
-    },
-  ];
 
   const loadDoctor = useCallback(async () => {
     if (id) {
@@ -57,6 +43,17 @@ const NewDoctor = () => {
   useEffect(() => {
     loadDoctor();
   }, [loadDoctor]);
+
+  const radioItems = [
+    {
+      value: "doctor",
+      displayName: i18n.t("Doctor"),
+    },
+    {
+      value: "clinic",
+      displayName: i18n.t("Clinic"),
+    },
+  ];
 
   const handleSave = async () => {
     if (doctor.type === DEFAULT_VALUE) return;
@@ -79,98 +76,67 @@ const NewDoctor = () => {
       } else {
         Alert.alert(i18n.t("Success"), i18n.t("Successfully Saved"));
       }
-
-      router.back();
     }
   };
 
   return (
+    <View className="screen-container">
+      <ScrollView className="px-8 w-full">
+        <View className={`flex justify-center min-h-full `}>
+          {/* <View
+  className={`flex ${value === "" ? "flex-1 min-h-[500px] justify-center " : "justify-center"}`}
+> */}
+          <Radio
+            setValue={doctor.setType}
+            radioItems={radioItems}
+            selectedValue={doctor.type}
+            defaultValue={DEFAULT_VALUE}
+          />
 
-    <KeyboardProvider>
-      <View className="screen-container">
-        <View className='flex justify-center w-full flex-1'>
-
-
-          <ScrollView
-            className='flex w-full h-full px-8 '
-            contentContainerClassName='grow justify-center'
-            keyboardDismissMode='on-drag'>
-
-            <Radio
-              setValue={doctor.setType}
-              radioItems={radioItems}
-              selectedValue={doctor.type}
-              defaultValue={DEFAULT_VALUE}
-            />
-
-            {doctor.type !== DEFAULT_VALUE && (
-              <View className="flex flex-col gap-4 mt-6 justify-center items-center">
-                <CInput
-                  label={i18n.t("Name")}
-                  InputValue={doctor.name}
-                  InputValueHandler={(text) => doctor.setName(text)}
-                />
-                <CInput
-                  label={i18n.t("Address")}
-                  InputValue={doctor.address}
-                  InputValueHandler={(text) => doctor.setAddress(text)}
-                />
-                <CInput
-                  label={i18n.t("Phone")}
-                  InputValue={doctor.phone}
-                  InputValueHandler={(text) => doctor.setPhone(text)}
-                />
-                <CInput
-                  label={i18n.t("Phone2")}
-                  InputValue={doctor.phone2}
-                  InputValueHandler={(text) => doctor.setPhone2(text)}
-                />
-                {/* <CInput
+          {doctor.type !== DEFAULT_VALUE && (
+            <View className="flex flex-col gap-4 mt-6 justify-center items-center">
+              <CInput
+                label={i18n.t("Name")}
+                InputValue={doctor.name}
+                InputValueHandler={(text) => doctor.setName(text)}
+              />
+              <CInput
+                label={i18n.t("Address")}
+                InputValue={doctor.address}
+                InputValueHandler={(text) => doctor.setAddress(text)}
+              />
+              <CInput
+                label={i18n.t("Phone")}
+                InputValue={doctor.phone}
+                InputValueHandler={(text) => doctor.setPhone(text)}
+              />
+              <CInput
+                label={i18n.t("Phone2")}
+                InputValue={doctor.phone2}
+                InputValueHandler={(text) => doctor.setPhone2(text)}
+              />
+              {/* <CInput
               label={i18n.t('Start Colaboration Date')}
               InputValue={doctor.colabStartDate}
               InputValueHandler={(e: any) => doctor.setColabStartDate(e.nativeEvent.text)}
-              /> */}
-              </View>
-            )}
-
-
-            <View
-              className='w-full'
-              style={{ height: fakePaddingSV }}
-            />
-          </ScrollView>
-
-          {/* container for buttom button */}
-          <View
-            className='absolute bottom-0 left-0 right-0 w-full flex items-center'
-          >
-
-            <View
-              style={buttomButtonStyle.button}
-              onLayout={(event) => {
-                const { height } = event.nativeEvent.layout;
-                setFakePaddingSV(height);
-              }}
-            >
-              <BottomButton
-                title={i18n.t("Save Doctor")}
-                disable={doctor.type === ""}
-                disabledText={i18n.t("Select")}
-                onPress={handleSave}
-                className="py-3"
-              />
+            /> */}
             </View>
-          </View>
-        </View >
-
-        {/* keyboard view */}
-        <View 
-          className='w-full'
-          style={{ height: height }}
+          )}
+        </View>
+      </ScrollView>
+      <View
+        // className="bottom-navigation-bar-container"
+        style={buttomButtonStyle.button}
+      >
+        <BottomButton
+          title={i18n.t("Save Doctor")}
+          disable={doctor.type === ""}
+          disabledText={i18n.t("Select")}
+          onPress={handleSave}
+          className="mt-8 py-3"
         />
       </View>
-
-    </KeyboardProvider >
+    </View>
   );
 };
 

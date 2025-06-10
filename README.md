@@ -9,10 +9,9 @@
 - [x] implement doctors list page and page
 - [x] edit doctor
 - [x] delete doctor with long press with alert confirmation
-- [x] handle keyboard event and adjust view
-- [x] redirect to doctor main page after save
-- [x] update doctor page after save new doctor
-- [ ] use Toast instead of alert
+- [ ] handle keyboard event and adjust view
+- [ ] redirect to doctor main page after save
+- [ ] update doctor page after save new doctor
 - [ ] CRadio Typescript error
 
 ...
