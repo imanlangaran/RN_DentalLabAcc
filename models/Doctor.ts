@@ -1,17 +1,17 @@
 import { dbService } from "@/db/drizzle";
 import { doctors, doctorAssociations, type Doctor as DrizzleDoctor, type DoctorAssociation } from "@/db/schema";
 import { eq } from "drizzle-orm";
-  export type DoctorValues = {
-    id?: number;
-    name: string;
-    address: string;
-    phone: string;
-    phone2: string;
-    colabStartDate: Date;
-    isActive: boolean;
-    type: "doctor" | "clinic";
-    associatedDoctors?: number[];
-  };
+export type DoctorValues = {
+  id?: number;
+  name: string;
+  address: string;
+  phone: string;
+  phone2: string;
+  colabStartDate: Date;
+  isActive: boolean;
+  type: "doctor" | "clinic";
+  associatedDoctors?: number[];
+};
 
 export class Doctor {
   private static readonly FIELD_NAMES = {
@@ -97,7 +97,7 @@ export class Doctor {
     // Delete existing associations
     const associations = await dbService.getAll<DoctorAssociation>(doctorAssociations);
     const existingAssociations = associations.filter(a => a.doctorId === this.id);
-    
+
     for (const assoc of existingAssociations) {
       await dbService.delete(doctorAssociations, assoc.id);
     }
@@ -113,7 +113,7 @@ export class Doctor {
 
   private async loadAssociations(): Promise<void> {
     if (!this.id) return;
-    
+
     const associations = await dbService.getAll<DoctorAssociation>(doctorAssociations);
     const currentDoctorAssociations = associations.filter(a => a.doctorId === this.id);
     this.associatedDoctors = currentDoctorAssociations.map(a => a.associatedDoctorId);
@@ -153,7 +153,7 @@ export class Doctor {
   public async save(): Promise<boolean> {
     try {
       const doctorData = this.toDatabase();
-      const result = this.id 
+      const result = this.id
         ? await dbService.update(doctors, this.id, doctorData)
         : await dbService.create(doctors, doctorData);
 

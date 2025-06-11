@@ -35,12 +35,12 @@ export default function RootLayout() {
     <ThemeProvider value={DefaultTheme}>
       {/* <Stack initialRouteName="Screens/NewDoctor"> */}
       <Stack>
-        <Stack.Screen name="index" redirect/>
+        <Stack.Screen name="index" redirect />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen
           name="Screens/NewDoctor"
-          options={{
-            title: i18n.t("newDoctor"),
+          options={({ route }) => ({
+            title: "     " + i18n.t(route.params?.title || "newDoctor") + "     ",
             headerBackButtonMenuEnabled: true,
             headerTitleAlign: "center",
             headerStyle: {
@@ -50,7 +50,7 @@ export default function RootLayout() {
             contentStyle: {
               direction: "rtl"
             }
-          }}
+          })}
         />
       </Stack>
     </ThemeProvider>

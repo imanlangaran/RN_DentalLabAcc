@@ -8,7 +8,7 @@ import { Alert, Platform, ScrollView, View, Text, TouchableOpacity } from "react
 import { Doctor } from "@/models/Doctor";
 import { buttomButtonStyle } from "@/styles";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback, useState, useLayoutEffect } from "react";
 import { KeyboardProvider, useKeyboardState } from "react-native-keyboard-controller";
 import StyledButton from "@/Components/StyledButton";
 
@@ -65,7 +65,17 @@ const NewDoctor = () => {
     }
   }, [id, doctor.setDoctor]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    if (thisState !== state.notLoaded) {
+      const titleKey = id ? 
+        (doctor.type === 'clinic' ? 'editClinic' : 'editDoctor') :
+        (doctor.type === 'clinic' ? 'newClinic' : 'newDoctor');
+      
+      router.setParams({ title: titleKey });
+    }
+  }, [thisState, doctor.type, id, router]);
+
+    useEffect(() => {
     if (thisState === state.notLoaded) loadDoctor();
   }, [loadDoctor]);
 

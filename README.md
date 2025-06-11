@@ -12,6 +12,7 @@
 - [x] handle keyboard event and adjust view
 - [x] redirect to doctor main page after save
 - [x] update doctor page after save new doctor
+- [x] dynamically set title of newDoctor page
 - [ ] use Toast instead of alert
 - [ ] CRadio Typescript error
 
