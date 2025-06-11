@@ -13,6 +13,7 @@
 - [x] redirect to doctor main page after save
 - [x] update doctor page after save new doctor
 - [x] dynamically set title of newDoctor page
+- [ ] fix: show doctors when edit clinic page opens
 - [ ] use Toast instead of alert
 - [ ] CRadio Typescript error
 

@@ -22,7 +22,6 @@ const NewDoctor = () => {
   const [fakePaddingSV, setFakePaddingSV] = useState<number>(0);
   const [thisState, setThisState] = useState<state>(state.notLoaded);
   const [showDoctorSelector, setShowDoctorSelector] = useState(false);
-  const [selectedDoctors, setSelectedDoctors] = useState<Doctor[]>([]);
   const { height } = useKeyboardState();
   const doctor = useDoctor({
     name: "",
@@ -91,7 +90,7 @@ const NewDoctor = () => {
       phone2: doctor.phone2,
       colabStartDate: doctor.colabStartDate,
       isActive: doctor.isActive,
-      associatedDoctors: selectedDoctors.map(d => d.id!), // Add associated doctors
+      associatedDoctors: doctor.selectedDoctors.map(d => d.id!), // Add associated doctors
     });
 
     const result = await doctorInstance.save();
@@ -129,13 +128,6 @@ const NewDoctor = () => {
             )}
 
             {(thisState === state.edit) && (
-              // <Radio
-              //   radioItems={
-              //     radioItems.filter(item => item.value === doctor.type)
-              //   }
-              //   selectedValue={doctor.type}
-              //   disabled
-              // />
               <StyledButton
                 label={radioItems.filter(item => item.value === doctor.type)[0].displayName}
                 selected
@@ -183,20 +175,20 @@ const NewDoctor = () => {
                       onPress={() => setShowDoctorSelector(true)}
                     >
                       <Text className="text-center text-primary text-xl py-2">
-                        {selectedDoctors.length
-                          ? `${selectedDoctors.length} ${i18n.t("Doctors Selected")}`
+                        {doctor.selectedDoctors.length
+                          ? `${doctor.selectedDoctors.length} ${i18n.t("Doctors Selected")}`
                           : i18n.t("Select Doctors")}
                       </Text>
                     </TouchableOpacity>
 
                     {/* Selected doctors list */}
-                    {selectedDoctors.length > 0 && (
+                    {doctor.selectedDoctors.length > 0 && (
                       <View className="w-full mt-2">
-                        {selectedDoctors.map((doctor) => (
-                          <View key={doctor.id} className="flex-row justify-between items-center bg-secondary/50 rounded-xl p-2 mb-2">
-                            <Text className="text-primary">{doctor.name}</Text>
+                        {doctor.selectedDoctors.map((theDoctor) => (
+                          <View key={theDoctor.id} className="flex-row justify-between items-center bg-secondary/50 rounded-xl p-2 mb-2">
+                            <Text className="text-primary">{theDoctor.name}</Text>
                             <TouchableOpacity
-                              onPress={() => setSelectedDoctors(selectedDoctors.filter(d => d.id !== doctor.id))}
+                              onPress={() => doctor.setSelectedDoctors(doctor.selectedDoctors.filter(d => d.id !== theDoctor.id))}
                               className="bg-primary/10 p-2 rounded-full"
                             >
                               <Text className="text-primary">✕</Text>
@@ -211,11 +203,11 @@ const NewDoctor = () => {
                       visible={showDoctorSelector}
                       onClose={() => setShowDoctorSelector(false)}
                       onSelect={(selectedDoctor) => {
-                        if (!selectedDoctors.some(d => d.id === selectedDoctor.id)) {
-                          setSelectedDoctors([...selectedDoctors, selectedDoctor]);
+                        if (!doctor.selectedDoctors.some(d => d.id === selectedDoctor.id)) {
+                          doctor.setSelectedDoctors([...doctor.selectedDoctors, selectedDoctor]);
                         }
                       }}
-                      selectedDoctors={selectedDoctors}
+                      selectedDoctors={doctor.selectedDoctors}
                     />
                   </View>
                 )}
