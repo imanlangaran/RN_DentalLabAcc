@@ -81,7 +81,7 @@ const NewDoctor = () => {
       phone2: doctor.phone2,
       colabStartDate: doctor.colabStartDate,
       isActive: doctor.isActive,
-      associatedDoctors: selectedDoctors.map(d => d.id), // Add associated doctors
+      associatedDoctors: selectedDoctors.map(d => d.id!), // Add associated doctors
     });
 
     const result = await doctorInstance.save();
