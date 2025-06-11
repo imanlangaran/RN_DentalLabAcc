@@ -35,9 +35,8 @@ export function useDoctor(initialValues: UIDoctorValues) {
   const setDoctorColabStartDate = setColabStartDate;
   const setDoctorIsActive = setIsActive;
   const setDoctorSelectedDoctors = setSelectedDoctors;
-
   // Add this new function
-  const setDoctor = (doctorData: DoctorValues) => {
+  const setDoctor = async (doctorData: DoctorValues) => {
     if (doctorData) {
       setName(doctorData.name);
       setType(doctorData.type);
@@ -46,6 +45,17 @@ export function useDoctor(initialValues: UIDoctorValues) {
       setPhone2(doctorData.phone2);
       setColabStartDate(doctorData.colabStartDate);
       setIsActive(doctorData.isActive);
+
+      // Handle associated doctors
+      if (doctorData.associatedDoctors?.length) {
+        // Load each doctor instance
+        const doctorPromises = doctorData.associatedDoctors.map(id => Doctor.getById(id));
+        const doctors = await Promise.all(doctorPromises);
+        // Filter out any null values and set the doctors
+        setSelectedDoctors(doctors.filter((d): d is Doctor => d !== null));
+      } else {
+        setSelectedDoctors([]);
+      }
     }
   };
 

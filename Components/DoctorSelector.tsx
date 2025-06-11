@@ -29,7 +29,7 @@ const DoctorSelector = ({
   useEffect(() => {
     const loadDoctors = async () => {
       try {
-        const doctorsList = await Doctor.getAll();
+        const doctorsList = await Doctor.getAllDoctors();
         setDoctors(doctorsList);
       } catch (error) {
         console.error("Error loading doctors:", error);

@@ -1,6 +1,6 @@
 import { dbService } from "@/db/drizzle";
 import { doctors, doctorAssociations, type Doctor as DrizzleDoctor, type DoctorAssociation } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 export type DoctorValues = {
   id?: number;
   name: string;
@@ -143,6 +143,27 @@ export class Doctor {
           return doctor;
         })
       );
+      return doctorInstances;
+    } catch (error) {
+      console.error("Error getting all doctors:", error);
+      return [];
+    }
+  }
+  
+  public static async getAllDoctors(): Promise<Doctor[]> {
+    try {
+      const doctorsData = await dbService.getWhere<DrizzleDoctor>(
+        doctors,
+        and(
+          eq(doctors.type, 'doctor'),
+          eq(doctors.isActive, true)
+        )
+      );
+
+      const doctorInstances = doctorsData.map((data) => {
+        const doctor = Doctor.fromDatabase(data);
+        return doctor;
+      })
       return doctorInstances;
     } catch (error) {
       console.error("Error getting all doctors:", error);

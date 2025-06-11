@@ -1,6 +1,6 @@
 import { openDatabaseSync } from 'expo-sqlite';
 import { drizzle } from 'drizzle-orm/expo-sqlite';
-import { eq, Table } from 'drizzle-orm';
+import { eq, Table, type SQL } from 'drizzle-orm';
 import { Platform } from 'react-native';
 import { SQLiteTableWithColumns } from 'drizzle-orm/sqlite-core';
 
@@ -111,6 +111,20 @@ class DatabaseService {
     } catch (error) {
       console.error('Error deleting record:', error);
       return false;
+    }
+  }  public async getWhere<T>(
+    table: Table,
+    whereCondition: SQL<unknown> | undefined
+  ): Promise<T[]> {
+    if (!this.db) return [];
+
+    try {
+      return await this.db.select()
+        .from(table)
+        .where(whereCondition) as T[];
+    } catch (error) {
+      console.error('Error getting records with condition:', error);
+      return [];
     }
   }
 }
