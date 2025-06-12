@@ -10,10 +10,11 @@ import { useSQLiteDevTools } from 'expo-sqlite-devtools';
 import "../global.css";
 import { useEffect, useState } from "react";
 import { initializeDatabase } from "@/utils/dbUtils";
+import { SQLiteDatabase } from "expo-sqlite";
 
 export default function RootLayout() {
   const [db, setDb] = useState<ExpoSQLiteDatabase<any> | null>(null);
-  const [expoDB, setExpoDB] = useState<any>(null);
+  const [expoDB, setExpoDB] = useState<SQLiteDatabase | null>(null);
 
   // Always call hooks at the top level
   const { success: migrationSuccess, error: migrationError } = useMigrations(db!, migrations);
@@ -47,7 +48,7 @@ export default function RootLayout() {
   useEffect(() => {
     return () => {
       if (expoDB) {
-        expoDB.close();
+        expoDB.closeSync();
       }
     };
   }, [expoDB]);

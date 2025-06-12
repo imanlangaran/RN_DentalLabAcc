@@ -1,12 +1,12 @@
 import { drizzle } from "drizzle-orm/expo-sqlite";
-import { openDatabaseSync } from "expo-sqlite";
+import { openDatabaseSync, SQLiteDatabase } from "expo-sqlite";
 import { ExpoSQLiteDatabase } from "drizzle-orm/expo-sqlite";
 
 export const LOCAL_DATABASE_NAME = 'RN_DentalLabAcc.db';
 
 interface DatabaseInstance {
   db: ExpoSQLiteDatabase<any> | null;
-  expoDB: any | null;
+  expoDB: SQLiteDatabase | null;
 }
 export const MAX_RETRIES = 3;
 export const RETRY_DELAY = 1000; // 1 second
