@@ -1,10 +1,14 @@
-import React, { ReactElement, useState } from "react";
+import React, { createContext, ReactElement, useState } from "react";
 import { View, LayoutChangeEvent } from "react-native";
 import { Tabs } from "expo-router";
 import { FontAwesome6, Ionicons } from '@expo/vector-icons';
 import { buttomTabBarStyle } from "@/styles";
 
 const tabBarHeight = 60;
+
+const BottomTabbarHeight = tabBarHeight + 20 + 20;
+
+export const TabBarContext = createContext<number>(tabBarHeight + 20 + 20);
 
 const TabIcon = ({
   icon,
@@ -46,77 +50,89 @@ const TabIcon = ({
 
 const _layout = () => {
   return (
-    <Tabs
-      screenOptions={{
-        animation: 'shift',
-        tabBarShowLabel: false,
-        tabBarStyle: {
-          // ...buttomTabBarStyle.container,
-          backgroundColor: '#3b82f6', // bg-blue-500
-          borderRadius: 9999,
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 4 },
-          shadowOpacity: 0.1,
-          shadowRadius: 4.65,
-          elevation: 4,
-          marginHorizontal: 20,
-          marginVertical: 20,
-          height: tabBarHeight
-        },
-        tabBarItemStyle: {
-          width: '100%',
-          height: '100%',
-          justifyContent: 'center',
-          alignItems: 'center',
-          paddingVertical: 3,
-          // borderRadius: 9999 // This will make each pressable area rounded
-        },
-        tabBarIconStyle: { height: '100%', width: '100%' },
-        tabBarActiveTintColor: '#2563eb', // bg-blue-600
-        // tabBarActiveTintColor: '#1d4ed8', // bg-blue-700
-        tabBarInactiveTintColor: '#fff',
-      }}
-    >
-      <Tabs.Screen name="index"
-        options={{
-          tabBarIcon: ({ color, size, focused }) =>
-            TabIcon({
-              icon: <Ionicons name="home" />,
-              color,
-              size,
-              focused
-            })
+    <TabBarContext.Provider value={BottomTabbarHeight}>
+
+      <Tabs
+        screenOptions={{
+          animation: 'shift',
+          tabBarShowLabel: false,
+
+          // sceneStyle:{
+          //   backgroundColor: 'red'
+          // },
+
+          tabBarStyle: {
+            // ...buttomTabBarStyle.container,
+            backgroundColor: '#3b82f6', // bg-blue-500
+            borderRadius: 9999,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: 0.1,
+            shadowRadius: 4.65,
+            elevation: 4,
+            marginHorizontal: 20,
+            marginVertical: 20,
+            height: tabBarHeight,
+            position: 'absolute',
+          },
+          tabBarItemStyle: {
+            width: '100%',
+            height: '100%',
+            justifyContent: 'center',
+            alignItems: 'center',
+            paddingVertical: 3,
+            // borderRadius: 9999 // This will make each pressable area rounded
+          },
+          tabBarIconStyle: { height: '100%', width: '100%' },
+          tabBarActiveTintColor: '#2563eb', // bg-blue-600
+          // tabBarActiveTintColor: '#1d4ed8', // bg-blue-700
+          tabBarInactiveTintColor: '#fff',
+          // transform: [{ translateY: 0 }] // This ensures the view is measurable
+
         }}
-      />
-      <Tabs.Screen
-        name="Doctors"
-        options={{
-          headerShown: true, tabBarIcon: ({ color, size, focused }) =>
-            TabIcon({
-              icon: <FontAwesome6 name="user-doctor" />,
-              color,
-              size,
-              focused
-            }),
-            headerSearchBarOptions:{
-              placeholder:'Search for a Doctor',
+      >
+        <Tabs.Screen name="index"
+          options={{
+            tabBarIcon: ({ color, size, focused }) =>
+              TabIcon({
+                icon: <Ionicons name="home" />,
+                color,
+                size,
+                focused
+              })
+          }}
+        />
+        <Tabs.Screen
+          name="Doctors"
+          options={{
+            headerShown: true, tabBarIcon: ({ color, size, focused }) =>
+              TabIcon({
+                icon: <FontAwesome6 name="user-doctor" />,
+                color,
+                size,
+                focused
+              }),
+            headerSearchBarOptions: {
+              placeholder: 'Search for a Doctor',
             }
-            
-        }}
-      />
-      <Tabs.Screen
-        name="Profile"
-        options={{
-          tabBarIcon: ({ color, size, focused }) =>
-            TabIcon({
-              icon: <Ionicons name="person" />,
-              color,
-              size,
-              focused
-            })
-        }}
-      />
-    </Tabs>
+
+          }}
+        />
+        <Tabs.Screen
+          name="Profile"
+          options={{
+            tabBarIcon: ({ color, size, focused }) =>
+              TabIcon({
+                icon: <Ionicons name="person" />,
+                color,
+                size,
+                focused
+              })
+          }}
+        />
+      </Tabs>
+    </TabBarContext.Provider>
+
   );
 };
 

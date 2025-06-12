@@ -1,12 +1,14 @@
-import { View, Text, Alert, TouchableOpacity } from "react-native";
-import React, { useCallback, useEffect, useState } from "react";
+import { View, Text, Alert, TouchableOpacity, ScrollView } from "react-native";
+import React, { useCallback, useContext, useState } from "react";
 import { Link } from "expo-router";
 import { Doctor, DoctorValues } from "@/models/Doctor";
 import DoctorCard from "@/Components/DoctorCard";
 import { useFocusEffect } from "@react-navigation/native";
+import { TabBarContext } from "./_layout";
 
 const Doctors = () => {
   const [doctors, setDoctors] = useState<DoctorValues[]>([]);
+  const bottomTabbarHeight = useContext(TabBarContext);
 
   const loadDoctors = useCallback(async () => {
     const doctorsList = await Doctor.getAll();
@@ -42,10 +44,14 @@ const Doctors = () => {
       Alert.alert("Error", "Error saving doctor");
     }
   };
-  
+
 
   return (
-    <View className="px-8">
+    // <View className="px-8">
+    <ScrollView
+      className="px-8"
+      contentContainerStyle={{ paddingBottom: bottomTabbarHeight }}
+    >
       <View className="flex-row justify-between items-center my-4">
         <Link
           href={"/Screens/NewDoctor"}
@@ -62,11 +68,14 @@ const Doctors = () => {
         </TouchableOpacity>
       </View>
 
-      <Text>Doctors</Text>
+      {/* <Text>Doctors</Text> */}
+
+      {/* <ScrollView> */}
       {doctors.map((doctor) => (
         <DoctorCard key={doctor.id} doctor={doctor} onDelete={loadDoctors} />
       ))}
-    </View>
+    </ScrollView>
+    // </View> 
   );
 };
 
