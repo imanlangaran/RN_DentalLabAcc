@@ -112,7 +112,9 @@ class DatabaseService {
       console.error('Error deleting record:', error);
       return false;
     }
-  }  public async getWhere<T>(
+  }
+  
+  public async getWhere<T>(
     table: Table,
     whereCondition: SQL<unknown> | undefined
   ): Promise<T[]> {
