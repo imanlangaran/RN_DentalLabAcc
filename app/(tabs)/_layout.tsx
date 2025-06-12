@@ -74,7 +74,7 @@ const _layout = () => {
         tabBarIconStyle: { height: '100%', width: '100%' },
         tabBarActiveTintColor: '#2563eb', // bg-blue-600
         // tabBarActiveTintColor: '#1d4ed8', // bg-blue-700
-        tabBarInactiveTintColor: '#fff'
+        tabBarInactiveTintColor: '#fff',
       }}
     >
       <Tabs.Screen name="index"
@@ -97,7 +97,11 @@ const _layout = () => {
               color,
               size,
               focused
-            })
+            }),
+            headerSearchBarOptions:{
+              placeholder:'Search for a Doctor',
+            }
+            
         }}
       />
       <Tabs.Screen
