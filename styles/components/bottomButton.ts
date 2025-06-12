@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { buttomTabBarStyle } from "./buttomTabBar";
 
 export const buttomButtonStyle = StyleSheet.create({
   button: {
@@ -9,5 +10,8 @@ export const buttomButtonStyle = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 20,
     backgroundColor: 'transparent'
+  },
+  container: {
+    ...buttomTabBarStyle.container,
   }
 })

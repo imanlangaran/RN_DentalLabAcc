@@ -14,8 +14,11 @@
 - [x] update doctor page after save new doctor
 - [x] dynamically set title of newDoctor page
 - [x] fix: show doctors when edit clinic page opens
-- [ ] implement bottom tab bar's style
+- [x] implement bottom tab bar's style
+- [ ] scrolling doctors list
+- [ ] transparenting buttom tabbar bg
 - [ ] use Toast instead of alert
 - [ ] CRadio Typescript error
+- [ ] refine and cleaning (tabs)/_layout.tsx tab bar's style
 
 ...
