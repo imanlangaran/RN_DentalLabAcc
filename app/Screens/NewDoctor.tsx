@@ -4,7 +4,7 @@ import Radio from "@/Components/CRadio";
 import DoctorSelector from "@/Components/DoctorSelector";
 import i18n from "@/lang/i18n";
 import { useDoctor } from "@/hooks/useDoctor";
-import { Alert, Platform, ScrollView, View, Text, TouchableOpacity } from "react-native";
+import { Alert, Platform, ScrollView, View, Text, TouchableOpacity, Modal } from "react-native";
 import { Doctor } from "@/models/Doctor";
 import { buttomButtonStyle } from "@/styles";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -22,6 +22,7 @@ const NewDoctor = () => {
   const [fakePaddingSV, setFakePaddingSV] = useState<number>(0);
   const [thisState, setThisState] = useState<state>(state.notLoaded);
   const [showDoctorSelector, setShowDoctorSelector] = useState(false);
+  const [showDatePicker, setShowDatePicker] = useState(true);
   const { height } = useKeyboardState();
   const doctor = useDoctor({
     name: "",
@@ -66,15 +67,15 @@ const NewDoctor = () => {
 
   useLayoutEffect(() => {
     if (thisState !== state.notLoaded) {
-      const titleKey = id ? 
+      const titleKey = id ?
         (doctor.type === 'clinic' ? 'editClinic' : 'editDoctor') :
         (doctor.type === 'clinic' ? 'newClinic' : 'newDoctor');
-      
+
       router.setParams({ title: titleKey });
     }
   }, [thisState, doctor.type, id, router]);
 
-    useEffect(() => {
+  useEffect(() => {
     if (thisState === state.notLoaded) loadDoctor();
   }, [loadDoctor]);
 
@@ -141,29 +142,30 @@ const NewDoctor = () => {
               <View className="flex flex-col gap-4 mt-6 justify-center items-center">
                 <CInput
                   label={i18n.t("Name")}
-                  InputValue={doctor.name}
-                  InputValueHandler={(text) => doctor.setName(text)}
+                  value={doctor.name}
+                  valueHandler={(text) => doctor.setName(text)}
                 />
                 <CInput
                   label={i18n.t("Address")}
-                  InputValue={doctor.address}
-                  InputValueHandler={(text) => doctor.setAddress(text)}
+                  value={doctor.address}
+                  valueHandler={(text) => doctor.setAddress(text)}
                 />
                 <CInput
                   label={i18n.t("Phone")}
-                  InputValue={doctor.phone}
-                  InputValueHandler={(text) => doctor.setPhone(text)}
+                  value={doctor.phone}
+                  valueHandler={(text) => doctor.setPhone(text)}
                 />
                 <CInput
                   label={i18n.t("Phone2")}
-                  InputValue={doctor.phone2}
-                  InputValueHandler={(text) => doctor.setPhone2(text)}
+                  value={doctor.phone2}
+                  valueHandler={(text) => doctor.setPhone2(text)}
                 />
-                {/* <CInput
-              label={i18n.t('Start Colaboration Date')}
-              InputValue={doctor.colabStartDate}
-              InputValueHandler={(e: any) => doctor.setColabStartDate(e.nativeEvent.text)}
-              /> */}
+                <CInput
+                  label={i18n.t('Start Colaboration Date')}
+                  value={doctor.colabStartDate.toDateString()}
+                  button
+                  onPress={() => { setShowDatePicker(true) }}
+                />
 
                 {/* Doctor selector section */}
                 {(doctor.type === 'clinic') && (
@@ -209,6 +211,22 @@ const NewDoctor = () => {
                       }}
                       selectedDoctors={doctor.selectedDoctors}
                     />
+
+                    {/* date picker modal */}
+                    <Modal
+                      visible={showDatePicker}
+                      transparent
+                      animationType="fade"
+                    >
+                      <TouchableOpacity className="flex-1 bg-black/50 justify-center items-center"
+                        onPress={() => { setShowDatePicker(false) }}>
+                        <View className="bg-white rounded-3xl p-6 h-2/3 w-3/4">
+
+                        </View>
+
+                      </TouchableOpacity>
+
+                    </Modal>
                   </View>
                 )}
 
