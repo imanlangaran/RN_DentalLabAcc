@@ -57,7 +57,7 @@ export default function RootLayout() {
     <ThemeProvider value={DefaultTheme}>
       {/* <Stack initialRouteName="Screens/NewDoctor"> */}
       <Stack>
-        <Stack.Screen name="index" redirect />
+        <Stack.Screen name="index" />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen
           name="Screens/NewDoctor"
@@ -74,6 +74,7 @@ export default function RootLayout() {
             }
           })}
         />
+        <Stack.Screen name="Screens/NewOrder"/>
       </Stack>
     </ThemeProvider>
   );
