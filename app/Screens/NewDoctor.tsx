@@ -213,7 +213,7 @@ const NewDoctor = () => {
                     />
 
                     {/* date picker modal */}
-                    <Modal
+                    {/* <Modal
                       visible={showDatePicker}
                       transparent
                       animationType="fade"
@@ -226,7 +226,7 @@ const NewDoctor = () => {
 
                       </TouchableOpacity>
 
-                    </Modal>
+                    </Modal> */}
                   </View>
                 )}
 
