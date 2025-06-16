@@ -17,6 +17,7 @@
 - [x] implement bottom tab bar's style
 - [x] scrolling doctors list
 - [x] transparenting buttom tabbar bg
+- [ ] inactive button in edit doctor
 - [ ] use Toast instead of alert
 - [ ] CRadio Typescript error
 - [ ] refine and cleaning (tabs)/_layout.tsx tab bar's style

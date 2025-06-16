@@ -74,6 +74,7 @@ export default function RootLayout() {
             }
           })}
         />
+        <Stack.Screen name="Screens/NewOrder"/>
       </Stack>
     </ThemeProvider>
   );
