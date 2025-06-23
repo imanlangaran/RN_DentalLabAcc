@@ -48,7 +48,11 @@ export default function RootLayout() {
   useEffect(() => {
     return () => {
       if (expoDB) {
-        expoDB.closeSync();
+        try {
+          expoDB.closeSync();
+        } catch (error) {
+          console.log('app/_layout', error);
+        }
       }
     };
   }, [expoDB]);
