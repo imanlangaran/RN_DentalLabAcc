@@ -46,7 +46,7 @@ const NewOrder = () => {
       >
         <TouchableOpacity className="flex-1 bg-black/50 justify-center items-center"
           onPress={() => { setShowDatePicker(false) }}>
-          <View className="bg-white rounded-3xl p-2 w-11/12 ">
+          <View className="bg-white rounded-3xl p-2 w-11/12 flex items-center justify-center">
             <DateTimePicker
               // className='bg-red-200 '
               mode="single"
@@ -58,7 +58,7 @@ const NewOrder = () => {
                 // header: 'border-b border-blue-300 mb-3',
 
                 day_cell: 'p-1',
-                day: 'rounded-full',
+                day: 'rounded-full aspect-square',
                 day_label: 'text-lg',
 
                 outside_label: 'text-gray-400',
@@ -66,7 +66,7 @@ const NewOrder = () => {
                 today: 'border border-primary',
 
                 // weekdays: 'pb-3',
-                weekdays: 'pt-2 pb-3 my-2 mx-1 bg-blue-500/10 rounded-xl',
+                weekdays: 'pt-2 pb-3 my-2 mx-1 bg-primary/20 rounded-3xl',
                 weekday_label: 'text-xl ',
                 // weekday:'bg-blue-200',
                 
