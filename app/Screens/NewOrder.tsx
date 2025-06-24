@@ -27,7 +27,7 @@ const NewOrder = () => {
       // <Feather name="chevron-left" size={22} color="#2260FF" />
       <Feather name="chevron-left" size={22} className='text-primary' />
     ),
-    // Day: (day: CalendarDay) => <Day day={day} />,
+    Day: (day: CalendarDay) => <Day day={day} />,
   };
 
   return (
@@ -57,8 +57,8 @@ const NewOrder = () => {
                 ...defaultClassNames,
                 // header: 'border-b border-blue-300 mb-3',
 
-                day_cell: 'p-1',
-                day: 'rounded-full aspect-square',
+                // day_cell: 'p-1',
+                day: 'rounded-full aspect',
                 day_label: 'text-lg',
 
                 outside_label: 'text-gray-400',
@@ -69,11 +69,11 @@ const NewOrder = () => {
                 weekdays: 'pt-2 pb-3 my-2 mx-1 bg-primary/20 rounded-3xl',
                 weekday_label: 'text-xl ',
                 // weekday:'bg-blue-200',
-                
+
 
                 selected: 'bg-primary',
                 selected_label: 'text-white text-xl',
-                
+
                 year_selector_label: 'text-xl font-semibold px-5 py-1',
 
                 month_selector_label: 'text-xl font-semibold px-5 py-1',
@@ -99,37 +99,32 @@ const NewOrder = () => {
   )
 }
 
-// const Day = ({ day }: {day:CalendarDay}) => {
-//   const { isSelected, isToday, isCurrentMonth } = day;
-//   const length =
-//     day.number % 3 === 0
-//       ? 1
-//       : day.number % 4 === 2
-//         ? 2
-//         : day.number % 5 === 0
-//           ? 3
-//           : 0;
+const Day = ({ day }: { day: CalendarDay }) => {
+  const { isSelected, isToday, isCurrentMonth } = day;
 
 
-//   return (
-//     <View
-//       className={cn(
-//         'relative w-full flex-1 items-center justify-center rounded border border-transparent pb-2',
-//         isSelected &&
-//           'border-dashed border-pink-200 bg-pink-50 dark:border-solid dark:border-slate-800 dark:bg-slate-800'
-//       )}
-//     >
-//       <Text
-//         className={cn(
-//           'font-archivo text-foreground',
-//           !isCurrentMonth && 'opacity-30',
-//           isSelected && 'text-slate-950 dark:text-slate-100'
-//         )}
-//       >
-//         {day.text}
-//       </Text>
-//     </View>
-//   );
-// };
+  return (
+    <View
+      className={`flex w-full h-full flex-1 items-center justify-center rounded-full aspect-square p-1 `}
+    >
+      <View className={`flex w-full h-full items-center justify-center rounded-full 
+        ${isSelected && ' bg-primary rounded-full '} 
+        ${isToday && ' border border-primary rounded-full '}`}>
+
+        <Text
+          className={`
+          ${!isCurrentMonth && 'opacity-30'} 
+          ${isSelected && 'text-slate-950 dark:text-slate-100'}`
+          }
+        >
+          {day.text}
+        </Text>
+      </View>
+    </View>
+  );
+};
+
+// has a bug 
+// when changing the date more than two times rounded shape goes away and it becomes square shape
 
 export default NewOrder
