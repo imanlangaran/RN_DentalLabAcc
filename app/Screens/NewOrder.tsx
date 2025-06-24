@@ -14,7 +14,7 @@ const NewOrder = () => {
   const [showDatePicker, setShowDatePicker] = useState(true);
 
 
-  const defaultStyles = useDefaultStyles();
+  // const defaultStyles = useDefaultStyles();
   const defaultClassNames = useDefaultClassNames();
   const [selected, setSelected] = useState<DateType>();
 
@@ -46,7 +46,7 @@ const NewOrder = () => {
       >
         <TouchableOpacity className="flex-1 bg-black/50 justify-center items-center"
           onPress={() => { setShowDatePicker(false) }}>
-          <View className="bg-white rounded-3xl p-2 w-11/12 flex items-center justify-center">
+          <View className="bg-white rounded-3xl p-2 w-11/12 flex items-center justify-center pb-5">
             <DateTimePicker
               // className='bg-red-200 '
               mode="single"
@@ -58,7 +58,7 @@ const NewOrder = () => {
                 // header: 'border-b border-blue-300 mb-3',
 
                 // day_cell: 'p-1',
-                day: 'rounded-full aspect',
+                day: 'rounded-full aspect-square',
                 day_label: 'text-lg',
 
                 outside_label: 'text-gray-400',
@@ -105,26 +105,30 @@ const Day = ({ day }: { day: CalendarDay }) => {
 
   return (
     <View
-      className={`flex w-full h-full flex-1 items-center justify-center rounded-full aspect-square p-1 `}
+      className='items-center justify-center w-full h-full aspect-square p-1'
     >
-      <View className={`flex w-full h-full items-center justify-center rounded-full 
-        ${isSelected && ' bg-primary rounded-full '} 
-        ${isToday && ' border border-primary rounded-full '}`}>
+      {/* <View 
+      className={cn('flex w-full h-full items-center justify-center rounded-full ',
+        isSelected && ' bg-primary rounded-full ',
+        isToday && ' border border-primary rounded-full ')}
+        > */}
+      <View
+        className={`flex w-full h-full items-center justify-center border rounded-full ${isSelected ? ' bg-primary' : 'bg-transparent'} ${isToday ? 'border-primary ' : 'border-transparent'} `}
+      >
 
         <Text
-          className={`
+          className={` text-xl 
           ${!isCurrentMonth && 'opacity-30'} 
-          ${isSelected && 'text-slate-950 dark:text-slate-100'}`
+          ${isSelected ? ' text-white ' : ' text-black '}`
           }
         >
           {day.text}
         </Text>
       </View>
-    </View>
+    </View >
   );
 };
 
-// has a bug 
-// when changing the date more than two times rounded shape goes away and it becomes square shape
+//mounth and year select
 
 export default NewOrder
