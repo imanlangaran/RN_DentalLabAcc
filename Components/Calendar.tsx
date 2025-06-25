@@ -1,8 +1,9 @@
+import { Colors } from '@/styles';
 import { Feather } from '@expo/vector-icons';
 import { cssInterop } from 'nativewind';
 import React from 'react'
 import { Text, View } from 'react-native';
-import DateTimePicker, { CalendarComponents, CalendarDay, DateType, useDefaultClassNames } from 'react-native-ui-datepicker'
+import DateTimePicker, { CalendarComponents, CalendarDay, DateType, useDefaultClassNames, useDefaultStyles } from 'react-native-ui-datepicker'
 
 cssInterop(Feather, {
   className: {
@@ -26,21 +27,72 @@ const components: CalendarComponents = {
 const Calendar = ({
   selectedDate,
   setSelectedDate,
-}:{
+}: {
   selectedDate: DateType;
   setSelectedDate: React.Dispatch<React.SetStateAction<DateType>>
 }) => {
 
 
-  const defaultClassNames = useDefaultClassNames();
-
+  // const defaultClassNames = useDefaultClassNames();
+  const defaultStyles = useDefaultStyles();
+  const className = 'text-white text-xl';
   return (
     <DateTimePicker
       // className='bg-red-200 '
       mode="single"
       date={selectedDate}
       onChange={({ date }) => setSelectedDate(date)}
-      // styles={defaultStyles}
+      styles={{
+        ...defaultStyles,
+
+        day: {
+          borderRadius: 999,
+          aspectRatio: 1 / 1,
+        },
+        day_label: {
+          fontSize: 18,
+          lineHeight: 28,
+        },
+
+        outside_label: {
+          color: Colors.gray[500]
+        },
+
+        today: {
+          borderWidth: 1,
+          borderColor: Colors.primary,
+        },
+
+        weekdays: {
+          paddingTop: 2,
+          paddingBottom: 6,
+
+          marginHorizontal: 8,
+          marginVertical: 4,
+
+          backgroundColor: Colors.primary + "14",
+
+          borderRadius: 24,
+
+          fontSize: 18,
+          lineHeight: 28,
+        },
+
+        weekday_label: {
+          fontSize: 20,
+          lineHeight: 28,
+        },
+
+        selected: {
+          color: Colors.primary,
+        },
+        selected_label: {
+          fontSize: 20,
+          lineHeight: 28,
+          color: Colors.white,
+        }
+      }}
+      /*
       classNames={{
         ...defaultClassNames,
         // header: 'border-b border-blue-300 mb-3',
@@ -79,7 +131,7 @@ const Calendar = ({
         month_selector_label: 'text-xl font-semibold px-5 py-1',
         // year_label: 'text-xl',
       }}
-
+      */
 
       locale='fa'
       numerals='arabext'
