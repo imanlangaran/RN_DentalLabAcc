@@ -35,7 +35,7 @@ const Calendar = ({
 
   // const defaultClassNames = useDefaultClassNames();
   const defaultStyles = useDefaultStyles();
-  const className = 'text-white text-xl';
+  const className = 'text-white text-xl font-semibold';
   return (
     <DateTimePicker
       // className='bg-red-200 '
@@ -90,6 +90,59 @@ const Calendar = ({
           fontSize: 20,
           lineHeight: 28,
           color: Colors.white,
+        },
+
+        month: {
+          borderRadius: 999,
+        },
+        month_label: {
+          color: Colors.black,
+          fontSize: 20,
+          lineHeight: 28,
+        },
+
+        year: {
+          borderRadius: 999
+        },
+        year_label: {
+          fontSize: 18,
+          lineHeight: 28,
+        },
+
+        selected_year_label: {
+          color: Colors.white,
+        },
+        selected_year: {
+          borderRadius: 999,
+          backgroundColor: Colors.primary,
+        },
+
+        selected_month: {
+          ...defaultStyles.selected_month,
+          backgroundColor: Colors.primary,
+          borderRadius: 999
+        },
+        selected_month_label: {
+          color: Colors.white,
+        },
+
+        month_selector_label: {
+          color: Colors.black,
+          fontSize: 20,
+          lineHeight: 28,
+          fontWeight: 600,
+          paddingHorizontal: 5,
+          paddingVertical: 1
+        },
+
+        year_selector_label: {
+          ...defaultStyles.year_selector_label,
+          color: Colors.black,
+          fontSize: 20,
+          lineHeight: 28,
+          fontWeight: 600,
+          paddingHorizontal: 5,
+          paddingVertical: 1
         }
       }}
       /*
@@ -141,7 +194,7 @@ const Calendar = ({
       // weekdaysHeight={36}
       weekdaysHeight={44}
       components={components}
-    // initialView='month'
+      // initialView='month'
     // disabledDates={(date) => [0, 6].includes(dayjs(date).day())} // Disable weekends
 
     />

@@ -226,7 +226,7 @@ const NewDoctor = () => {
                     <View className="bg-white rounded-3xl p-2 w-11/12 flex items-center justify-center pb-5">
                       <Calendar
                         selectedDate={doctor.colabStartDate}
-                        setSelectedDate={doctor.setColabStartDate}
+                        setSelectedDate={(date) => doctor.setColabStartDate(date as Date)}
                       />
                     </View>
 
