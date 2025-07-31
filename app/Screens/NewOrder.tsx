@@ -5,7 +5,7 @@ import Calendar from '@/Components/Calendar';
 
 
 const NewOrder = () => {
-  const [showDatePicker, setShowDatePicker] = useState(true);
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
 
   // const defaultStyles = useDefaultStyles();
