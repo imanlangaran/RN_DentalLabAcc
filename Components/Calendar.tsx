@@ -164,7 +164,8 @@ const Day = ({ day }: { day: CalendarDay }) => {
         isToday && ' border border-primary rounded-full ')}
         > */}
       <View
-        className={`flex w-full h-full items-center justify-center border rounded-full ${isSelected ? ' bg-primary' : 'bg-transparent'} ${isToday ? 'border-primary ' : 'border-transparent'} `}
+        // className={`flex w-full h-full items-center justify-center border rounded-full ${isSelected ? ' bg-primary' : 'bg-transparent'} ${isToday ? 'border-primary ' : 'border-transparent'} `}
+        className={`flex w-full h-full items-center justify-center border rounded-full ${isSelected ? ' bg-primary' : 'bg-transparent'} border-transparent `}
       >
 
         <Text
