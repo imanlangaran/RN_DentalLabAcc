@@ -21,7 +21,7 @@ class DatabaseService {
   }
 
   public static getInstance(): DatabaseService {
-    if (!DatabaseService.instance) {
+    if (!DatabaseService.instance || !DatabaseService) {
       DatabaseService.instance = new DatabaseService();
     }
     return DatabaseService.instance;
