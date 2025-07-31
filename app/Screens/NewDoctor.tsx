@@ -11,6 +11,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useCallback, useState, useLayoutEffect } from "react";
 import { KeyboardProvider, useKeyboardState } from "react-native-keyboard-controller";
 import StyledButton from "@/Components/StyledButton";
+import Calendar from '@/Components/Calendar';
 
 const DEFAULT_VALUE = "";
 
@@ -212,23 +213,26 @@ const NewDoctor = () => {
                       selectedDoctors={doctor.selectedDoctors}
                     />
 
-                    {/* date picker modal */}
-                    {/* <Modal
-                      visible={showDatePicker}
-                      transparent
-                      animationType="fade"
-                    >
-                      <TouchableOpacity className="flex-1 bg-black/50 justify-center items-center"
-                        onPress={() => { setShowDatePicker(false) }}>
-                        <View className="bg-white rounded-3xl p-6 h-2/3 w-3/4">
-
-                        </View>
-
-                      </TouchableOpacity>
-
-                    </Modal> */}
                   </View>
                 )}
+                {/* date picker modal */}
+                <Modal
+                  visible={showDatePicker}
+                  transparent
+                  animationType="fade"
+                >
+                  <TouchableOpacity className="flex-1 bg-black/50 justify-center items-center"
+                    onPress={() => { setShowDatePicker(false) }}>
+                    <View className="bg-white rounded-3xl p-2 w-11/12 flex items-center justify-center pb-5">
+                      <Calendar
+                        selectedDate={doctor.colabStartDate}
+                        setSelectedDate={doctor.setColabStartDate}
+                      />
+                    </View>
+
+                  </TouchableOpacity>
+
+                </Modal>
 
 
               </View>
