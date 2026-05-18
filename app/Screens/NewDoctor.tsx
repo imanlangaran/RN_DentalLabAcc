@@ -1,21 +1,29 @@
 import BottomButton from "@/Components/BottomButton";
 import CInput from "@/Components/CInput";
 import Radio from "@/Components/CRadio";
+import DoctorSelector from "@/Components/DoctorSelector";
 import i18n from "@/lang/i18n";
 import { useDoctor } from "@/hooks/useDoctor";
-import { Alert, Platform, ScrollView, View } from "react-native";
+import { Alert, Platform, ScrollView, View, Text, TouchableOpacity, Modal } from "react-native";
 import { Doctor } from "@/models/Doctor";
 import { buttomButtonStyle } from "@/styles";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback, useState, useLayoutEffect } from "react";
 import { KeyboardProvider, useKeyboardState } from "react-native-keyboard-controller";
+import StyledButton from "@/Components/StyledButton";
+import Calendar from '@/Components/Calendar';
 
 const DEFAULT_VALUE = "";
+
+enum state { 'new', 'edit', 'notLoaded' }
 
 const NewDoctor = () => {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
   const [fakePaddingSV, setFakePaddingSV] = useState<number>(0);
+  const [thisState, setThisState] = useState<state>(state.notLoaded);
+  const [showDoctorSelector, setShowDoctorSelector] = useState(false);
+  const [showDatePicker, setShowDatePicker] = useState(true);
   const { height } = useKeyboardState();
   const doctor = useDoctor({
     name: "",
@@ -50,18 +58,33 @@ const NewDoctor = () => {
       } catch (error) {
         console.error("Error loading doctor:", error);
         Alert.alert(i18n.t("Error"), i18n.t("Error loading doctor"));
+      } finally {
+        setThisState(state.edit);
       }
+    } else {
+      setThisState(state.new);
     }
   }, [id, doctor.setDoctor]);
 
+  useLayoutEffect(() => {
+    if (thisState !== state.notLoaded) {
+      const titleKey = id ?
+        (doctor.type === 'clinic' ? 'editClinic' : 'editDoctor') :
+        (doctor.type === 'clinic' ? 'newClinic' : 'newDoctor');
+
+      router.setParams({ title: titleKey });
+    }
+  }, [thisState, doctor.type, id, router]);
+
   useEffect(() => {
-    loadDoctor();
+    if (thisState === state.notLoaded) loadDoctor();
   }, [loadDoctor]);
 
   const handleSave = async () => {
     if (doctor.type === DEFAULT_VALUE) return;
 
     const doctorInstance = new Doctor({
+      id: (id && thisState === state.edit) ? Number(id) : undefined,
       name: doctor.name,
       type: doctor.type,
       address: doctor.address,
@@ -69,6 +92,7 @@ const NewDoctor = () => {
       phone2: doctor.phone2,
       colabStartDate: doctor.colabStartDate,
       isActive: doctor.isActive,
+      associatedDoctors: doctor.selectedDoctors.map(d => d.id!), // Add associated doctors
     });
 
     const result = await doctorInstance.save();
@@ -96,40 +120,121 @@ const NewDoctor = () => {
             contentContainerClassName='grow justify-center'
             keyboardDismissMode='on-drag'>
 
-            <Radio
-              setValue={doctor.setType}
-              radioItems={radioItems}
-              selectedValue={doctor.type}
-              defaultValue={DEFAULT_VALUE}
-            />
+            {(thisState === state.new) && (
+              <Radio
+                setValue={doctor.setType}
+                radioItems={radioItems}
+                selectedValue={doctor.type}
+                defaultValue={DEFAULT_VALUE}
+              />
+            )}
+
+            {(thisState === state.edit) && (
+              <StyledButton
+                label={radioItems.filter(item => item.value === doctor.type)[0].displayName}
+                selected
+                disabled
+                containerClassName="w-full mb-2"
+                textClassName="py-2 text-2xl"
+              />
+            )}
 
             {doctor.type !== DEFAULT_VALUE && (
               <View className="flex flex-col gap-4 mt-6 justify-center items-center">
                 <CInput
                   label={i18n.t("Name")}
-                  InputValue={doctor.name}
-                  InputValueHandler={(text) => doctor.setName(text)}
+                  value={doctor.name}
+                  valueHandler={(text) => doctor.setName(text)}
                 />
                 <CInput
                   label={i18n.t("Address")}
-                  InputValue={doctor.address}
-                  InputValueHandler={(text) => doctor.setAddress(text)}
+                  value={doctor.address}
+                  valueHandler={(text) => doctor.setAddress(text)}
                 />
                 <CInput
                   label={i18n.t("Phone")}
-                  InputValue={doctor.phone}
-                  InputValueHandler={(text) => doctor.setPhone(text)}
+                  value={doctor.phone}
+                  valueHandler={(text) => doctor.setPhone(text)}
                 />
                 <CInput
                   label={i18n.t("Phone2")}
-                  InputValue={doctor.phone2}
-                  InputValueHandler={(text) => doctor.setPhone2(text)}
+                  value={doctor.phone2}
+                  valueHandler={(text) => doctor.setPhone2(text)}
                 />
-                {/* <CInput
-              label={i18n.t('Start Colaboration Date')}
-              InputValue={doctor.colabStartDate}
-              InputValueHandler={(e: any) => doctor.setColabStartDate(e.nativeEvent.text)}
-              /> */}
+                <CInput
+                  label={i18n.t('Start Colaboration Date')}
+                  value={doctor.colabStartDate.toDateString()}
+                  button
+                  onPress={() => { setShowDatePicker(true) }}
+                />
+
+                {/* Doctor selector section */}
+                {(doctor.type === 'clinic') && (
+
+                  <View className="w-full flex items-start">
+                    <Text className="text-black text-xl mb-2">{i18n.t("Associated Doctors")}</Text>
+                    <TouchableOpacity
+                      className="w-full p-2 rounded-3xl bg-secondary"
+                      onPress={() => setShowDoctorSelector(true)}
+                    >
+                      <Text className="text-center text-primary text-xl py-2">
+                        {doctor.selectedDoctors.length
+                          ? `${doctor.selectedDoctors.length} ${i18n.t("Doctors Selected")}`
+                          : i18n.t("Select Doctors")}
+                      </Text>
+                    </TouchableOpacity>
+
+                    {/* Selected doctors list */}
+                    {doctor.selectedDoctors.length > 0 && (
+                      <View className="w-full mt-2">
+                        {doctor.selectedDoctors.map((theDoctor) => (
+                          <View key={theDoctor.id} className="flex-row justify-between items-center bg-secondary/50 rounded-xl p-2 mb-2">
+                            <Text className="text-primary">{theDoctor.name}</Text>
+                            <TouchableOpacity
+                              onPress={() => doctor.setSelectedDoctors(doctor.selectedDoctors.filter(d => d.id !== theDoctor.id))}
+                              className="bg-primary/10 p-2 rounded-full"
+                            >
+                              <Text className="text-primary">✕</Text>
+                            </TouchableOpacity>
+                          </View>
+                        ))}
+                      </View>
+                    )}
+
+                    {/* Doctor selector modal */}
+                    <DoctorSelector
+                      visible={showDoctorSelector}
+                      onClose={() => setShowDoctorSelector(false)}
+                      onSelect={(selectedDoctor) => {
+                        if (!doctor.selectedDoctors.some(d => d.id === selectedDoctor.id)) {
+                          doctor.setSelectedDoctors([...doctor.selectedDoctors, selectedDoctor]);
+                        }
+                      }}
+                      selectedDoctors={doctor.selectedDoctors}
+                    />
+
+                  </View>
+                )}
+                {/* date picker modal */}
+                <Modal
+                  visible={showDatePicker}
+                  transparent
+                  animationType="fade"
+                >
+                  <TouchableOpacity className="flex-1 bg-black/50 justify-center items-center"
+                    onPress={() => { setShowDatePicker(false) }}>
+                    <View className="bg-white rounded-3xl p-2 w-11/12 flex items-center justify-center pb-5">
+                      <Calendar
+                        selectedDate={doctor.colabStartDate}
+                        setSelectedDate={(date) => doctor.setColabStartDate(date as Date)}
+                      />
+                    </View>
+
+                  </TouchableOpacity>
+
+                </Modal>
+
+
               </View>
             )}
 
@@ -164,7 +269,7 @@ const NewDoctor = () => {
         </View >
 
         {/* keyboard view */}
-        <View 
+        <View
           className='w-full'
           style={{ height: height }}
         />

@@ -1,5 +1,5 @@
 import { DoctorType } from "@/Constants/Types";
-import { DoctorValues } from "@/models/Doctor";
+import { Doctor, DoctorValues } from "@/models/Doctor";
 import { useState } from "react";
 
 type UIDoctorValues = Omit<DoctorValues, 'type'> & {
@@ -14,6 +14,7 @@ export function useDoctor(initialValues: UIDoctorValues) {
   const [phone2, setPhone2] = useState(initialValues.phone2);
   const [colabStartDate, setColabStartDate] = useState(initialValues.colabStartDate);
   const [isActive, setIsActive] = useState(initialValues.isActive);
+  const [selectedDoctors, setSelectedDoctors] = useState<Doctor[]>([]);
 
   // Getters
   const getName = () => name;
@@ -23,6 +24,7 @@ export function useDoctor(initialValues: UIDoctorValues) {
   const getPhone2 = () => phone2;
   const getColabStartDate = () => colabStartDate;
   const getIsActive = () => isActive;
+  const getSelectedDoctors = () => selectedDoctors;
 
   // Setters
   const setDoctorName = setName;
@@ -32,9 +34,9 @@ export function useDoctor(initialValues: UIDoctorValues) {
   const setDoctorPhone2 = setPhone2;
   const setDoctorColabStartDate = setColabStartDate;
   const setDoctorIsActive = setIsActive;
-
+  const setDoctorSelectedDoctors = setSelectedDoctors;
   // Add this new function
-  const setDoctor = (doctorData: DoctorValues) => {
+  const setDoctor = async (doctorData: DoctorValues) => {
     if (doctorData) {
       setName(doctorData.name);
       setType(doctorData.type);
@@ -43,6 +45,17 @@ export function useDoctor(initialValues: UIDoctorValues) {
       setPhone2(doctorData.phone2);
       setColabStartDate(doctorData.colabStartDate);
       setIsActive(doctorData.isActive);
+
+      // Handle associated doctors
+      if (doctorData.associatedDoctors?.length) {
+        // Load each doctor instance
+        const doctorPromises = doctorData.associatedDoctors.map(id => Doctor.getById(id));
+        const doctors = await Promise.all(doctorPromises);
+        // Filter out any null values and set the doctors
+        setSelectedDoctors(doctors.filter((d): d is Doctor => d !== null));
+      } else {
+        setSelectedDoctors([]);
+      }
     }
   };
 
@@ -55,6 +68,7 @@ export function useDoctor(initialValues: UIDoctorValues) {
     phone2, setPhone2: setDoctorPhone2, getPhone2,
     colabStartDate, setColabStartDate: setDoctorColabStartDate, getColabStartDate,
     isActive, setIsActive: setDoctorIsActive, getIsActive,
+    selectedDoctors, setSelectedDoctors: setDoctorSelectedDoctors, getSelectedDoctors,
     getDoctorValues: () => ({ 
       name, 
       type,
@@ -64,6 +78,6 @@ export function useDoctor(initialValues: UIDoctorValues) {
       colabStartDate, 
       isActive 
     } as DoctorValues),
-    setDoctor // Add this to the returned object
+    setDoctor
   };
 }

@@ -1,3 +1,4 @@
+import { buttomButtonStyle } from "@/styles";
 import { Text, TouchableOpacity } from "react-native";
 
 const BottomButton = ({
@@ -14,7 +15,9 @@ const BottomButton = ({
   className?: string;
 }) => (
   <TouchableOpacity
-    className={`bg-blue-500 rounded-full w-full shadow-md active:opacity-80 ${className}`}
+    // className={`bg-blue-500 rounded-full w-full shadow-md active:opacity-80 ${className}`}
+    className={`${className}`}
+    style={buttomButtonStyle.container}
     onPress={disable ? undefined : onPress}
   >
     <Text className="text-white text-center text-base font-bold">

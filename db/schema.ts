@@ -12,4 +12,11 @@ export const doctors = sqliteTable('doctors', {
   isActive: integer('isActive', { mode: 'boolean' }).notNull().default(true)
 });
 
+export const doctorAssociations = sqliteTable('doctor_associations', {
+  id: integer('id').primaryKey({ autoIncrement: true }).unique(),
+  doctorId: integer('doctor_id').notNull().references(() => doctors.id),
+  associatedDoctorId: integer('associated_doctor_id').notNull().references(() => doctors.id),
+});
+
 export type Doctor = typeof doctors.$inferSelect
+export type DoctorAssociation = typeof doctorAssociations.$inferSelect
